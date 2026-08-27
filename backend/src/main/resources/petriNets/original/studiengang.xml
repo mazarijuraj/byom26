@@ -1,0 +1,106 @@
+<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://petriflow.com/petriflow.schema.xsd">
+	<id>studiengang</id>
+	<version>1.0.0</version>
+	<initials>STG</initials>
+	<title>Studiengang</title>
+	<icon>device_hub</icon>
+	<defaultRole>true</defaultRole>
+	<anonymousRole>false</anonymousRole>
+	<transitionRole>false</transitionRole>
+	<data type="multichoice_map">
+		<id>modulliste</id>
+		<title>Module</title>
+	</data>
+	<data type="text">
+		<id>name</id>
+		<title>Name</title>
+	</data>
+	<transition>
+		<id>t1</id>
+		<x>272</x>
+		<y>144</y>
+		<label>Anlegen</label>
+		<assignPolicy>auto</assignPolicy>
+		<dataGroup>
+			<id>t1_0</id>
+			<cols>4</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>name</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>modulliste</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>1</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>list</name>
+				</component>
+			</dataRef>
+		</dataGroup>
+		<event type="assign">
+			<id>t1_assign</id>
+			<actions phase="pre">
+				<action id="1">
+					<![CDATA[
+					modulliste: f.modulliste;
+					
+					def module = findCasesElastic("processIdentifier:modul", org.springframework.data.domain.PageRequest.of(0,200));
+					change modulliste options { module.collectEntries{ modulCase -> [modulCase.stringId, "${modulCase.dataSet["nummer"].value} - ${modulCase.dataSet["name"].value}"] } }
+					
+					
+					]]>
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<place>
+		<id>p1</id>
+		<x>208</x>
+		<y>144</y>
+		<tokens>1</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p2</id>
+		<x>336</x>
+		<y>144</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<arc>
+		<id>a1</id>
+		<type>regular</type>
+		<sourceId>p1</sourceId>
+		<destinationId>t1</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a2</id>
+		<type>regular</type>
+		<sourceId>t1</sourceId>
+		<destinationId>p2</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+</document>

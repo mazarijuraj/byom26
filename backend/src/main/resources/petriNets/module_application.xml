@@ -1,0 +1,829 @@
+<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://petriflow.com/petriflow.schema.xsd">
+	<id>module_application</id>
+	<version>1.0.0</version>
+	<initials>MAP</initials>
+	<title>Module Application</title>
+	<icon>device_hub</icon>
+	<defaultRole>false</defaultRole>
+	<anonymousRole>false</anonymousRole>
+	<transitionRole>false</transitionRole>
+	<data type="button">
+		<id>add_leistung</id>
+		<title/>
+		<placeholder>add</placeholder>
+		<event type="set">
+			<id>add_leistung_set</id>
+			<actions phase="post">
+				<action id="7">
+					<![CDATA[
+					leistungen_cases: f.leistungen_cases,
+					leistungen: f.leistungen;
+					def leistung = createCase("leistung");
+					def initTask = assignTask("init", leistung);
+					setData(initTask, [
+							"parent": [
+									"value": [useCase.stringId],
+									"type": "caseRef"
+							]
+					]);
+					finishTask(initTask);
+					change leistungen value { leistungen.value << getTaskId("form", leistung); }
+					change leistungen_cases value { leistungen_cases.value << leistung.stringId; }
+					]]>
+				</action>
+			</actions>
+		</event>
+	</data>
+	<data type="text">
+		<id>begruendung_ablehnung_pa</id>
+		<title>Justification</title>
+		<component>
+			<name>htmltextarea</name>
+		</component>
+	</data>
+	<data type="boolean">
+		<id>boolean_0</id>
+		<title/>
+		<init>false</init>
+	</data>
+	<data type="enumeration_map">
+		<id>entscheidung_print</id>
+		<title>Decision</title>
+		<options>
+			<option key="ok">Recognized</option>
+			<option key="ko">Not Recognized</option>
+		</options>
+		<event type="set">
+			<id>entscheidung_print_set</id>
+			<actions phase="post">
+				<action id="12">
+					<![CDATA[
+					entscheidung_print: f.entscheidung_print,
+					print: t.print,
+					begruendung_ablehnung_pa: f.begruendung_ablehnung_pa;
+					make begruendung_ablehnung_pa, visible on print when { entscheidung_print.value == "ko" }
+					]]>
+				</action>
+			</actions>
+		</event>
+	</data>
+	<data type="enumeration_map">
+		<id>enum_entscheidung_pa</id>
+		<title>Decision</title>
+		<options>
+			<option key="ok">Approve recognition</option>
+			<option key="ko">Reject recognition</option>
+		</options>
+	</data>
+	<data type="enumeration_map">
+		<id>enum_verantwortliche</id>
+		<title>Person Responsible</title>
+		<options>
+			<option key="pa">Decision by Examination Office</option>
+			<option key="fv">Decision by Subject Representative</option>
+		</options>
+	</data>
+	<data type="enumeration_map">
+		<id>enumeration_map_0</id>
+		<title/>
+		<options>
+			<option key="key1">value</option>
+		</options>
+	</data>
+	<data type="enumeration_map">
+		<id>enumeration_map_1</id>
+		<title/>
+	</data>
+	<data type="text">
+		<id>header</id>
+		<title>Module Description</title>
+	</data>
+	<data type="text">
+		<id>inhalt</id>
+		<title/>
+	</data>
+	<data type="taskRef">
+		<id>leistungen</id>
+		<title/>
+		<event type="set">
+			<id>leistungen_set</id>
+			<actions phase="post">
+				<action id="4">
+					<![CDATA[
+					leistungen: f.leistungen,
+					parent: f.parent;
+					if (leistungen.value.size() > 0) {
+						return;
+					}
+					def antragCase = findCaseElastic("stringId:${parent.value[0]}");
+					def formTaskId = getTaskId("eintragen");
+					setData("modulantraege_stellen", antragCase, [
+							"modulantraege_tasks": [
+									"value": antragCase.dataSet["modulantraege_tasks"].value - formTaskId,
+									"type": "taskRef"
+							],
+							"modulantraege_cases": [
+									"value": antragCase.dataSet["modulantraege_cases"].value - useCase.stringId,
+									"type": "caseRef"
+							]
+					]);
+					]]>
+				</action>
+			</actions>
+		</event>
+	</data>
+	<data type="caseRef">
+		<id>leistungen_cases</id>
+		<title/>
+		<allowedNets>
+			<allowedNet>leistung</allowedNet>
+		</allowedNets>
+	</data>
+	<data type="taskRef">
+		<id>leistungen_fv</id>
+		<title/>
+	</data>
+	<data type="taskRef">
+		<id>leistungen_pa</id>
+		<title/>
+	</data>
+	<data type="caseRef">
+		<id>modul</id>
+		<title/>
+		<event type="set">
+			<id>modul_set</id>
+			<actions phase="post">
+				<action id="1">
+					<![CDATA[
+					title_print: f.title_print,
+					header: f.header,
+					modul: f.modul;
+
+					def modulCase = findCaseElastic("stringId:${modul.value[0]}");
+//					change header value { "Sie möchten das Modul <b>" + modulCase.dataSet["nummer"].value + " - " + modulCase.dataSet["name"].value + " (" + modulCase.dataSet["ects"].value.intValue() + " ECTS)</b> der FernUniversität anerkennen lassen. Prüfen Sie die <a href="" + modulCase.dataSet["link"].value + "" target="_blank">Modulbeschreibung</a>. Tragen Sie dann von Ihnen erbrachte Leistung ein, welche Sie für die Anerkennung heranziehen wollen."; }
+//					change title_print value { "<b>" + modulCase.dataSet["nummer"].value + " - " + modulCase.dataSet["name"].value + " (" + modulCase.dataSet["ects"].value.intValue() + " ECTS)</b>"; }
+					]]>
+				</action>
+			</actions>
+		</event>
+		<allowedNets>
+			<allowedNet>modul</allowedNet>
+		</allowedNets>
+	</data>
+	<data type="multichoice">
+		<id>multichoice_0</id>
+		<title/>
+		<options>
+			<option key="Ich habe meine Leistung mit der Modulbeschreibung verglichen und möchte den Antrag stellen.">I have compared my achievement with the module description and would like to submit the application.</option>
+		</options>
+	</data>
+	<data type="caseRef">
+		<id>parent</id>
+		<title/>
+		<allowedNets>
+			<allowedNet>application</allowedNet>
+		</allowedNets>
+	</data>
+	<data type="text">
+		<id>text_0</id>
+		<title/>
+	</data>
+	<data type="text">
+		<id>text_1</id>
+		<title/>
+	</data>
+	<data type="i18n">
+		<id>title</id>
+		<title/>
+		<init>##### - Name - ECTS</init>
+	</data>
+	<data type="text">
+		<id>title_print</id>
+		<title/>
+		<init>##### - Modul (# ECTS)</init>
+		<component>
+			<name>htmltextarea</name>
+		</component>
+	</data>
+	<transition>
+		<id>eintragen</id>
+		<x>720</x>
+		<y>176</y>
+		<label>Enter data</label>
+		<dataGroup>
+			<id>t2_0</id>
+			<cols>9</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>header</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>9</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>htmltextarea</name>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>leistungen</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>1</y>
+					<rows>1</rows>
+					<cols>9</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>add_leistung</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>8</x>
+					<y>2</y>
+					<rows>1</rows>
+					<cols>1</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>minifab</name>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>leistungen_cases</id>
+				<logic>
+					<behavior>forbidden</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>6</y>
+					<rows>1</rows>
+					<cols>9</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+		<event type="finish">
+			<id>eintragen_finish</id>
+			<actions phase="post">
+				<action id="3">
+					<![CDATA[
+					leistungen_pa: f.leistungen_pa,
+					leistungen_cases: f.leistungen_cases,
+					leistungen: f.leistungen;
+					if (leistungen.value.size() == 0) {
+						return;
+					}
+					def leistungenTasks = findTasks({it._id.in(leistungen.value)});
+					assignTasks(leistungenTasks);
+					finishTasks(leistungenTasks);
+					def leistungenPATasks = findTasks({it.transitionId.eq("pruefen") & it.caseId.in(leistungen_cases.value)});
+					change leistungen_pa value { leistungenPATasks.collect {pruefenTask -> pruefenTask.stringId}; }
+					]]>
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<transition>
+		<id>entscheiden</id>
+		<x>1008</x>
+		<y>208</y>
+		<label>Decide module application</label>
+		<dataGroup>
+			<id>t3_0</id>
+			<cols>6</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>title_print</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>5</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>enum_entscheidung_pa</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>5</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>1</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<event type="set">
+					<id>enum_entscheidung_pa_set</id>
+					<actions phase="post">
+						<action id="8">
+							<![CDATA[
+							entscheiden: t.entscheiden,
+							enum_entscheidung_pa: f.enum_entscheidung_pa,
+							begruendung_ablehnung_pa: f.begruendung_ablehnung_pa;
+							make begruendung_ablehnung_pa, editable on entscheiden when { enum_entscheidung_pa.value == "ko" }
+							make begruendung_ablehnung_pa, hidden on entscheiden when { enum_entscheidung_pa.value != "ko" }
+							]]>
+						</action>
+					</actions>
+				</event>
+			</dataRef>
+			<dataRef>
+				<id>begruendung_ablehnung_pa</id>
+				<logic>
+					<behavior>hidden</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>1</y>
+					<rows>3</rows>
+					<cols>6</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>htmltextarea</name>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>leistungen_fv</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>4</y>
+					<rows>1</rows>
+					<cols>6</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+		<event type="finish">
+			<id>entscheiden_finish</id>
+			<actions phase="post">
+				<action id="10">
+					<![CDATA[
+					enum_entscheidung_pa: f.enum_entscheidung_pa,
+					entscheidung_print: f.entscheidung_print;
+					change entscheidung_print value { enum_entscheidung_pa.value; }
+					]]>
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<transition>
+		<id>init</id>
+		<x>592</x>
+		<y>176</y>
+		<label>Init</label>
+		<icon>settings</icon>
+		<dataGroup>
+			<id>init_0</id>
+			<cols>4</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>parent</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>modul</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>leistungen_cases</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>1</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+		<event type="finish">
+			<id>init_finish</id>
+			<actions phase="post">
+				<action id="2">
+					<![CDATA[
+					leistungen_cases: f.leistungen_cases,
+					leistungen: f.leistungen;
+					def leistung = createCase("leistung");
+					def initTask = assignTask("init", leistung);
+					setData(initTask, [
+							"parent": [
+									"value": [useCase.stringId],
+									"type": "caseRef"
+							]
+					]);
+					finishTask(initTask);
+					def leistungTaskId = getTaskId("form", leistung)
+					change leistungen value { [leistungTaskId]; }
+					//make ["remove"],hidden on ([leistungTaskId]) when {true}
+					change leistungen_cases value { [leistung.stringId]; }
+					]]>
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<transition>
+		<id>print</id>
+		<x>1168</x>
+		<y>176</y>
+		<label>Send module application</label>
+		<dataGroup>
+			<id>print_0</id>
+			<cols>6</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>title_print</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>5</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>entscheidung_print</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>5</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>1</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>begruendung_ablehnung_pa</id>
+				<logic>
+					<behavior>hidden</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>1</y>
+					<rows>1</rows>
+					<cols>6</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>leistungen_pa</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>2</y>
+					<rows>1</rows>
+					<cols>6</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+	</transition>
+	<transition>
+		<id>pruefen</id>
+		<x>848</x>
+		<y>176</y>
+		<label>Review module application</label>
+		<assignPolicy>auto</assignPolicy>
+		<dataGroup>
+			<id>t3_0</id>
+			<cols>6</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>title_print</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>enum_verantwortliche</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>4</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>1</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<event type="set">
+					<id>enum_verantwortliche_set</id>
+					<actions phase="post">
+						<action id="6">
+							<![CDATA[
+							pruefen: t.pruefen,
+							enum_entscheidung_pa: f.enum_entscheidung_pa,
+							enum_verantwortliche: f.enum_verantwortliche;
+							make enum_entscheidung_pa, editable on pruefen when { enum_verantwortliche.value == "pa" }
+							make enum_entscheidung_pa, hidden on pruefen when { enum_verantwortliche.value == "fv" }
+							if (enum_verantwortliche.value != "pa") {
+								change enum_entscheidung_pa value { null; }
+							}
+							]]>
+						</action>
+					</actions>
+				</event>
+			</dataRef>
+			<dataRef>
+				<id>enum_entscheidung_pa</id>
+				<logic>
+					<behavior>hidden</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>5</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>1</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<event type="set">
+					<id>enum_entscheidung_pa_set</id>
+					<actions phase="post">
+						<action id="5">
+							<![CDATA[
+							enum_entscheidung_pa: f.enum_entscheidung_pa,
+							pruefen: t.pruefen,
+							begruendung_ablehnung_pa: f.begruendung_ablehnung_pa;
+							make begruendung_ablehnung_pa, editable on pruefen when { enum_entscheidung_pa.value == "ko" }
+							make begruendung_ablehnung_pa, hidden on pruefen when { enum_entscheidung_pa.value != "ko" }
+							]]>
+						</action>
+					</actions>
+				</event>
+			</dataRef>
+			<dataRef>
+				<id>begruendung_ablehnung_pa</id>
+				<logic>
+					<behavior>hidden</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>1</y>
+					<rows>3</rows>
+					<cols>6</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>htmltextarea</name>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>leistungen_pa</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>4</y>
+					<rows>1</rows>
+					<cols>6</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+		<event type="finish">
+			<id>pruefen_finish</id>
+			<actions phase="post">
+				<action id="9">
+					<![CDATA[
+					leistungen_fv: f.leistungen_fv,
+					leistungen_cases: f.leistungen_cases;
+					def leistungenCases = findCases({it._id.in(leistungen_cases.value)});
+					def vorhandeneLeistungen = [];
+					leistungenCases.each { leistung ->
+						if(leistung.dataSet["vorhanden"].value == "ja") {
+							vorhandeneLeistungen << leistung.stringId;
+						}
+					}
+					def leistungenFVTasks = findTasks({it.transitionId.eq("print") & it.caseId.in(vorhandeneLeistungen)});
+					change leistungen_fv value { leistungenFVTasks.collect {printTask -> printTask.stringId}; }
+					]]>
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<transition>
+		<id>skip</id>
+		<x>1008</x>
+		<y>144</y>
+		<label>skip</label>
+		<icon>settings</icon>
+		<event type="finish">
+			<id>skip_finish</id>
+			<actions phase="post">
+				<action id="11">
+					<![CDATA[
+					enum_entscheidung_pa: f.enum_entscheidung_pa,
+					entscheidung_print: f.entscheidung_print;
+					change entscheidung_print value { enum_entscheidung_pa.value; }
+					]]>
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<place>
+		<id>p1</id>
+		<x>528</x>
+		<y>176</y>
+		<tokens>1</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p2</id>
+		<x>656</x>
+		<y>176</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p3</id>
+		<x>784</x>
+		<y>176</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p4</id>
+		<x>912</x>
+		<y>176</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p5</id>
+		<x>1072</x>
+		<y>176</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p6</id>
+		<x>1232</x>
+		<y>176</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<arc>
+		<id>a1</id>
+		<type>regular</type>
+		<sourceId>p1</sourceId>
+		<destinationId>init</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a10</id>
+		<type>regular</type>
+		<sourceId>print</sourceId>
+		<destinationId>p6</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a11</id>
+		<type>regular</type>
+		<sourceId>p4</sourceId>
+		<destinationId>skip</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a12</id>
+		<type>regular</type>
+		<sourceId>skip</sourceId>
+		<destinationId>p5</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a2</id>
+		<type>regular</type>
+		<sourceId>init</sourceId>
+		<destinationId>p2</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a3</id>
+		<type>regular</type>
+		<sourceId>p2</sourceId>
+		<destinationId>eintragen</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a4</id>
+		<type>regular</type>
+		<sourceId>eintragen</sourceId>
+		<destinationId>p3</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a5</id>
+		<type>regular</type>
+		<sourceId>p3</sourceId>
+		<destinationId>pruefen</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a6</id>
+		<type>regular</type>
+		<sourceId>pruefen</sourceId>
+		<destinationId>p4</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a7</id>
+		<type>regular</type>
+		<sourceId>p4</sourceId>
+		<destinationId>entscheiden</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a8</id>
+		<type>regular</type>
+		<sourceId>entscheiden</sourceId>
+		<destinationId>p5</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a9</id>
+		<type>regular</type>
+		<sourceId>p5</sourceId>
+		<destinationId>print</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+</document>

@@ -1,0 +1,200 @@
+<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://petriflow.com/petriflow.schema.xsd">
+	<id>fv_pruefung</id>
+	<version>1.0.0</version>
+	<initials>FVP</initials>
+	<title>Prüfung durch Fachvertreter</title>
+	<icon>fact_check</icon>
+	<defaultRole>false</defaultRole>
+	<anonymousRole>false</anonymousRole>
+	<transitionRole>false</transitionRole>
+	<userRef>
+		<id>fachvertreter</id>
+		<caseLogic>
+			<view>true</view>
+		</caseLogic>
+	</userRef>
+	<data type="userList">
+		<id>fachvertreter</id>
+		<title/>
+	</data>
+	<data type="taskRef">
+		<id>modulantraege</id>
+		<title/>
+	</data>
+	<data type="caseRef">
+		<id>parent</id>
+		<title/>
+		<event type="set">
+			<id>parent_set</id>
+			<actions phase="post">
+				<action id="3">
+					<![CDATA[
+					parent: f.parent;
+					def parentCase = findCase({it._id.eq(parent.value[0])});
+					changeCaseProperty "title" about { parentCase.title; }
+					]]>
+				</action>
+			</actions>
+		</event>
+		<allowedNets>
+			<allowedNet>antrag</allowedNet>
+		</allowedNets>
+	</data>
+	<transition>
+		<id>init</id>
+		<x>496</x>
+		<y>176</y>
+		<label>init</label>
+		<icon>settings</icon>
+		<dataGroup>
+			<id>init_0</id>
+			<cols>4</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>parent</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>fachvertreter</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>modulantraege</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>1</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+	</transition>
+	<transition>
+		<id>t1</id>
+		<x>624</x>
+		<y>176</y>
+		<label>Modulanträge prüfen</label>
+		<assignPolicy>auto</assignPolicy>
+		<userRef>
+			<id>fachvertreter</id>
+			<logic>
+				<view>true</view>
+				<perform>true</perform>
+			</logic>
+		</userRef>
+		<dataGroup>
+			<id>t1_0</id>
+			<cols>4</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>modulantraege</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+		<event type="finish">
+			<id>t1_finish</id>
+			<actions phase="post">
+				<action id="1">
+					<![CDATA[
+					modulantraege: f.modulantraege;
+					def modulantraege = findTasks({it._id.in(modulantraege.value)});
+					assignTasks(modulantraege);
+					finishTasks(modulantraege);
+					]]>
+				</action>
+				<action id="2">
+					<![CDATA[
+					parent: f.parent;
+					def parentCase = findCase({it._id.eq(parent.value[0])});
+					assignTask("fv_done", parentCase);
+					finishTask("fv_done", parentCase);
+					]]>
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<place>
+		<id>p1</id>
+		<x>432</x>
+		<y>176</y>
+		<tokens>1</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p2</id>
+		<x>688</x>
+		<y>176</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p4</id>
+		<x>560</x>
+		<y>176</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<arc>
+		<id>a2</id>
+		<type>regular</type>
+		<sourceId>t1</sourceId>
+		<destinationId>p2</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a4</id>
+		<type>regular</type>
+		<sourceId>p1</sourceId>
+		<destinationId>init</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a5</id>
+		<type>regular</type>
+		<sourceId>init</sourceId>
+		<destinationId>p4</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a6</id>
+		<type>regular</type>
+		<sourceId>p4</sourceId>
+		<destinationId>t1</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+</document>

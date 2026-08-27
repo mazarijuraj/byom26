@@ -1,0 +1,61 @@
+template header
+ruleId
+salienceVal
+ruleEnabled
+dateEffective
+dateExpires
+whenCondition
+thenAction
+
+import java.util.HashMap;
+import java.util.ArrayList;
+import org.slf4j.Logger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import com.netgrif.application.engine.utils.DateUtils;
+
+import com.netgrif.application.engine.workflow.domain.*
+import com.netgrif.application.engine.petrinet.domain.*
+import com.netgrif.application.engine.petrinet.domain.events.*
+import com.netgrif.application.engine.rules.domain.facts.*
+
+import org.quartz.*
+
+import com.netgrif.application.engine.workflow.service.interfaces.ITaskService;
+import com.netgrif.application.engine.auth.service.interfaces.IUserService;
+import com.netgrif.application.engine.elastic.service.interfaces.IElasticCaseService;
+import com.netgrif.application.engine.elastic.service.interfaces.IElasticTaskService;
+import com.netgrif.application.engine.rules.domain.FactRepository;
+import com.netgrif.application.engine.workflow.service.WorkflowService;
+import com.netgrif.application.engine.workflow.service.DataService;
+import com.netgrif.application.engine.mail.MailService;
+import com.netgrif.application.engine.rules.service.RuleEvaluationScheduleService;
+import org.slf4j.Logger;
+import com.netgrif.application.engine.petrinet.domain.events.*;
+
+
+global ITaskService taskService;
+global IUserService userService;
+global IElasticCaseService elasticCaseService;
+global IElasticTaskService elasticTaskService;
+global FactRepository factRepository;
+global WorkflowService workflowService;
+global DataService dataService;
+global MailService mailService;
+global RuleEvaluationScheduleService ruleEvaluationScheduleService;
+global Logger log;
+
+
+template "standard_template"
+
+rule "@{ruleId}" salience @{salienceVal}
+  dialect "mvel"
+  enabled @{ruleEnabled}
+  @{dateEffective}
+  @{dateExpires}
+  when
+    @{whenCondition}
+  then
+    @{thenAction}
+end
+end template

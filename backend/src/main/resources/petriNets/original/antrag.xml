@@ -1,0 +1,1354 @@
+<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://petriflow.com/petriflow.schema.xsd">
+	<id>antrag</id>
+	<version>1.0.0</version>
+	<initials>AUS</initials>
+	<title>Antrag</title>
+	<icon>fact_check</icon>
+	<defaultRole>false</defaultRole>
+	<anonymousRole>true</anonymousRole>
+	<transitionRole>false</transitionRole>
+	<caseName>Antrag</caseName>
+	<roleRef>
+		<id>anonymous</id>
+		<caseLogic>
+			<create>true</create>
+			<view>true</view>
+		</caseLogic>
+	</roleRef>
+	<roleRef>
+		<id>PA</id>
+		<caseLogic>
+			<view>true</view>
+		</caseLogic>
+	</roleRef>
+	<role>
+		<id>PA</id>
+		<title>Prüfungsamt</title>
+	</role>
+	<data type="file">
+		<id>antrag</id>
+		<title>Antrag</title>
+		<component>
+			<name>preview</name>
+		</component>
+	</data>
+	<data type="file">
+		<id>beschreibungen</id>
+		<title>Inhaltsbeschreibungen</title>
+		<component>
+			<name>preview</name>
+		</component>
+	</data>
+	<data type="text">
+		<id>email</id>
+		<title>Email</title>
+	</data>
+	<data type="text">
+		<id>header</id>
+		<title/>
+		<init>&lt;p&gt;Im Folgenden finden Sie eine Auflistung der Module, für die eine Anerkennung im gewählten Studiengang möglich ist. Wählen Sie in diesem Schritt zunächst die Module aus, bei denen Sie prüfen möchten, ob Sie passende Leistungen einbringen können. Die aufgezählten Stichpunkte dienen hierbei zur Orientierung. Prüfungsleistungen können anerkannt werden, sofern hinsichtlich der erworbenen Kompetenzen kein wesentlicher Unterschied zu Ihren Leistungen besteht. Im nächsten Schritt werden Ihnen die Modulbeschreibungen aller ausgewählten Module angezeigt, und Sie können Ihre Leistungen entsprechend eintragen.&lt;/p&gt;</init>
+	</data>
+	<data type="multichoice_map">
+		<id>modulantraege</id>
+		<title>Module</title>
+	</data>
+	<data type="caseRef">
+		<id>modulantraege_cases</id>
+		<title/>
+		<allowedNets>
+			<allowedNet>modulantrag</allowedNet>
+		</allowedNets>
+	</data>
+	<data type="taskRef">
+		<id>modulantraege_pa_print</id>
+		<title/>
+	</data>
+	<data type="taskRef">
+		<id>modulantraege_print</id>
+		<title/>
+	</data>
+	<data type="taskRef">
+		<id>modulantraege_pruefen</id>
+		<title/>
+	</data>
+	<data type="taskRef">
+		<id>modulantraege_tasks</id>
+		<title/>
+	</data>
+	<data type="number">
+		<id>n</id>
+		<title>n</title>
+		<init>1</init>
+	</data>
+	<data type="enumeration_map">
+		<id>studiengang</id>
+		<title>Studiengang</title>
+	</data>
+	<data type="text">
+		<id>text_0</id>
+		<title>Vorname/Name</title>
+	</data>
+	<data type="text">
+		<id>text_1</id>
+		<title>Nachname</title>
+	</data>
+	<data type="text">
+		<id>text_10</id>
+		<title/>
+		<init>&lt;h1&gt;Antrag auf Anerkennung von Prüfungsleistungen im&lt;/h1&gt;</init>
+	</data>
+	<data type="text">
+		<id>text_2</id>
+		<title/>
+		<init>&lt;p&gt;Hier finden Sie Links zu den Modulbeschreibungen der von Ihnen ausgewählten Module. Prüfen Sie die behandelten Inhalte und Kompetenzen sorgfältig und tragen Sie Leistungen ein, wenn Sie der Meinung sind, dass zwischen Ihren Leistungen und den Modulinhalten sowie Kompetenzen kein wesentlicher Unterschied besteht. Geben Sie für jede eingetragene Leistung auch die Seitenzahlen der Leistungsübersichten und Studieninhalte an, damit wir Ihre Angaben prüfen können. Sie können für jedes Modul mehrere Leistungen einbringen. Wenn Sie alle Leistungen zu einem Modul löschen, wird dieses Modul nicht beantragt.&lt;/p&gt;</init>
+	</data>
+	<data type="text">
+		<id>text_3</id>
+		<title>Straße/Nr.</title>
+	</data>
+	<data type="text">
+		<id>text_4</id>
+		<title>PLZ/Wohnort</title>
+	</data>
+	<data type="text">
+		<id>text_5</id>
+		<title>Ort</title>
+	</data>
+	<data type="text">
+		<id>text_6</id>
+		<title/>
+		<init>&lt;p class="ql-align-center"&gt;Der Antrag wurde eingereicht. Wir haben von Ihnen die folgenden Dateien erhalten.&lt;/p&gt;&lt;p class="ql-align-center"&gt;Sobald wir über den Antrag entschieden haben, werden wir Sie per E-Mail informieren.&lt;/p&gt;</init>
+	</data>
+	<data type="text">
+		<id>text_7</id>
+		<title/>
+		<init>&lt;h1&gt;Antrag auf Auskunft über die Anerkennung von Prüfungsleistungen&lt;/h1&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Hinweise:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Prüfungsleistungen können anerkannt werden, sofern hinsichtlich der erworbenen Kompetenzen kein wesentlicher Unterschied zu den Leistungen besteht, die ersetzt werden. Bitte vergleichen Sie dazu vor der Antragsstellung Ihre Modulbeschreibungen mit unseren &lt;a href="https://www.fernuni-hagen.de/mi/studium/bsc_mathematik/module.shtml" rel="noopener noreferrer" target="_blank"&gt;Modulbeschreibungen&lt;/a&gt;.&lt;/li&gt;&lt;li&gt;Eine Anerkennung von Prüfungsleistungen ist immer nur für ganze Module möglich; Teilmengen sind nicht anerkennbar.&lt;/li&gt;&lt;li&gt;Bei der Anerkennung von Prüfungsleistungen, die an anderen Einrichtungen erbracht worden sind, erfolgt die Anerkennung ohne Note. Die Note eines Moduls kann nur übernommen werden, wenn die Notensysteme vergleichbar sind und Inhalt und Umfang des Moduls übereinstimmen.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Der folgende Antrag ist wie folgt auszufülen:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Tragen Sie Ihre Daten ein.&lt;/li&gt;&lt;li&gt;Alle Leistungsbeschreibungen als PDF hochladen. z.B. Zeugnise und Leistungsübersichten.&lt;/li&gt;&lt;li&gt;Alle Inhaltsbeschreibungen als PDF hochladen. z. B. Modulbeschreibungen, Inhaltsaufstellungen, Auszüge aus Studienführern oder Prüfungsordnungen, aus denen der Umfang der Lehrveranstaltungen (ECTS-Punkte oder SWS), der Inhalt der Lehrveranstaltungen sowie die Form und Dauer der Prüfungsleistungen hervorgehen. Diese benötigen wir, damit eine Prüfung auf Anerkennung erfolgen kann.&lt;/li&gt;&lt;/ul&gt;</init>
+	</data>
+	<data type="text">
+		<id>text_8</id>
+		<title>Matrikelnummer (wenn vorhanden)</title>
+	</data>
+	<data type="text">
+		<id>text_9</id>
+		<title>Telefon</title>
+	</data>
+	<data type="file">
+		<id>zeugnisse</id>
+		<title>Leistungsbeschreibungen</title>
+		<component>
+			<name>preview</name>
+		</component>
+	</data>
+	<transition>
+		<id>fv_done</id>
+		<x>976</x>
+		<y>208</y>
+		<label/>
+		<icon>sync</icon>
+	</transition>
+	<transition>
+		<id>modulantraege_stellen</id>
+		<x>528</x>
+		<y>144</y>
+		<label>Modulanträge stellen</label>
+		<assignPolicy>auto</assignPolicy>
+		<roleRef>
+			<id>anonymous</id>
+			<logic>
+				<view>true</view>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<dataGroup>
+			<id>t3_0</id>
+			<cols>4</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>text_2</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>2</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>htmltextarea</name>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>zeugnisse</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>2</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>preview</name>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>beschreibungen</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>2</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>preview</name>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>modulantraege_tasks</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>3</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>modulantraege_cases</id>
+				<logic>
+					<behavior>forbidden</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>7</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+		<event type="finish">
+			<id>t3_finish</id>
+			<title>Einreichen</title>
+			<actions phase="post">
+				<action id="5">
+					<![CDATA[
+					modulantraege_pruefen: f.modulantraege_pruefen,
+					modulantraege_tasks: f.modulantraege_tasks,
+					modulantraege_cases: f.modulantraege_cases;
+					if (modulantraege_cases.value.size() == 0) {
+					    return;
+					}
+					def modulantraegeTasks = findTasks({it._id.in(modulantraege_tasks.value)});
+					assignTasks(modulantraegeTasks);
+					finishTasks(modulantraegeTasks);
+					def modulantraegePATasks = findTasks({it.transitionId.eq("pruefen") & it.caseId.in(modulantraege_cases.value)});
+					change modulantraege_pruefen value { modulantraegePATasks.collect {pruefenTask -> pruefenTask.stringId}; }
+					]]>
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<transition>
+		<id>t1</id>
+		<x>272</x>
+		<y>144</y>
+		<label>Antrag anlegen</label>
+		<assignPolicy>auto</assignPolicy>
+		<roleRef>
+			<id>anonymous</id>
+			<logic>
+				<view>true</view>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<dataGroup>
+			<id>t1_0</id>
+			<cols>4</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>text_7</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>4</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>htmltextarea</name>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>text_0</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>4</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>text_8</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>4</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>text_3</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>5</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>text_9</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>5</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>text_4</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>6</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>email</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>6</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>studiengang</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>7</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>zeugnisse</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>8</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>preview</name>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>beschreibungen</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>8</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>preview</name>
+				</component>
+			</dataRef>
+		</dataGroup>
+		<event type="assign">
+			<id>t1_assign</id>
+			<actions phase="pre">
+				<action id="1">
+					<![CDATA[
+					studiengang: f.studiengang;
+					def studiengaenge = findCasesElastic("processIdentifier:studiengang", org.springframework.data.domain.PageRequest.of(0,200));
+					change studiengang options { studiengaenge.collectEntries{ studiengangCase -> [studiengangCase.stringId, "${studiengangCase.dataSet["name"].value}"] } }
+					]]>
+				</action>
+			</actions>
+		</event>
+		<event type="finish">
+			<id>t1_finish</id>
+			<title>Weiter</title>
+			<actions phase="pre">
+				<action id="10">
+					<![CDATA[
+					text_0: f.text_0;
+					changeCaseProperty "title" about { "AUS - ${text_0.value}"; }
+					]]>
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<transition>
+		<id>t10</id>
+		<x>688</x>
+		<y>80</y>
+		<label>Antrag bestätigung</label>
+		<assignPolicy>auto</assignPolicy>
+		<roleRef>
+			<id>anonymous</id>
+			<logic>
+				<view>true</view>
+			</logic>
+		</roleRef>
+		<dataGroup>
+			<id>t10_0</id>
+			<cols>6</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>text_6</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>2</rows>
+					<cols>6</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>htmltextarea</name>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>zeugnisse</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>2</y>
+					<rows>1</rows>
+					<cols>3</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>beschreibungen</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>3</x>
+					<y>2</y>
+					<rows>1</rows>
+					<cols>3</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>antrag</id>
+				<logic>
+					<behavior>hidden</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>3</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+	</transition>
+	<transition>
+		<id>t2</id>
+		<x>400</x>
+		<y>144</y>
+		<label>Module auswählen</label>
+		<assignPolicy>auto</assignPolicy>
+		<roleRef>
+			<id>anonymous</id>
+			<logic>
+				<view>true</view>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<dataGroup>
+			<id>t2_0</id>
+			<cols>4</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>header</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>2</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>htmltextarea</name>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>modulantraege</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>2</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>list</name>
+				</component>
+			</dataRef>
+		</dataGroup>
+		<event type="assign">
+			<id>t2_assign</id>
+			<actions phase="pre">
+				<action id="2">
+					<![CDATA[
+					modulantraege: f.modulantraege,
+					studiengang: f.studiengang;
+					def studiengangCase = findCaseElastic("stringId:${studiengang.value}");
+					def modulIds = studiengangCase.dataSet["modulliste"].value;
+					def idQuery = "(" + modulIds.join(" OR ") + ")"
+					def modulCases = findCasesElastic("stringId:${idQuery}", org.springframework.data.domain.PageRequest.of(0,200));
+					change modulantraege options { modulCases.collectEntries{ modulCase -> [modulCase.stringId, "${modulCase.dataSet["nummer"].value} - ${modulCase.dataSet["name"].value} (${modulCase.dataSet["ects"].value.intValue()} ECTS) - [${modulCase.dataSet["inhalt"].value}]"] } }
+					]]>
+				</action>
+				<action id="6">
+					<![CDATA[
+					studiengang: f.studiengang,
+					header: f.header;
+					//change header value { return "<h1>Antrag auf Anerkennung von Prüfungsleistungen im Studiengang " + studiengang.options[studiengang.value] + " <\h1><p>Im Folgenden finden Sie eine Auflistung der Module, für die eine Anerkennung im gewählten Studiengang möglich ist. Wählen Sie in diesem Schritt zunächst die Module aus, bei denen Sie prüfen möchten, ob Sie passende Leistungen einbringen können. Die aufgezählten Stichpunkte dienen hierbei zur Orientierung. Prüfungsleistungen können anerkannt werden, sofern hinsichtlich der erworbenen Kompetenzen kein wesentlicher Unterschied zu Ihren Leistungen besteht. Im nächsten Schritt werden Ihnen die Modulbeschreibungen aller ausgewählten Module angezeigt, und Sie können Ihre Leistungen entsprechend eintragen.<\p>"; }
+					change header value { "<h1>Antrag auf Anerkennung von Prüfungsleistungen im Studiengang " + (studiengang.options[studiengang.value]) + "</h1><p>Im Folgenden finden Sie eine Auflistung der Module, für die eine Anerkennung im gewählten Studiengang möglich ist. Wählen Sie in diesem Schritt zunächst die Module aus, bei denen Sie prüfen möchten, ob Sie passende Leistungen einbringen können. Die aufgezählten Stichpunkte dienen hierbei zur Orientierung. Prüfungsleistungen können anerkannt werden, sofern hinsichtlich der erworbenen Kompetenzen kein wesentlicher Unterschied zu Ihren Leistungen besteht. Im nächsten Schritt werden Ihnen die Modulbeschreibungen aller ausgewählten Module angezeigt, und Sie können Ihre Leistungen entsprechend eintragen.</p>"; }
+					]]>
+				</action>
+			</actions>
+		</event>
+		<event type="finish">
+			<id>t2_finish</id>
+			<title>Weiter</title>
+			<actions phase="post">
+				<action id="3">
+					<![CDATA[
+					modulantraege_cases: f.modulantraege_cases,
+					modulantraege_tasks: f.modulantraege_tasks,
+					modulantraege: f.modulantraege;
+					def modulantraegeCaseIds = [];
+					def datenEintragenTaskIds = [];
+					modulantraege.value.each { modulId ->
+					    def modulantragCase = createCase("modulantrag");
+					    def initTask = assignTask("init", modulantragCase);
+					    setData(initTask, [
+					        "parent": [
+					            "value": [useCase.stringId],
+					            "type": "caseRef"
+					        ],
+					        "modul": [
+					            "value": [modulId],
+					            "type": "caseRef"
+					        ]
+					    ]);
+					    finishTask(initTask);
+					    def eintragenTaskId = getTaskId("eintragen", modulantragCase);
+					    modulantraegeCaseIds << modulantragCase.stringId;
+					    datenEintragenTaskIds << eintragenTaskId;
+					}
+					change modulantraege_tasks value { datenEintragenTaskIds; }
+					change modulantraege_cases value { modulantraegeCaseIds; }
+					]]>
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<transition>
+		<id>t4</id>
+		<x>688</x>
+		<y>208</y>
+		<label>Antrag prüfen</label>
+		<assignPolicy>auto</assignPolicy>
+		<roleRef>
+			<id>PA</id>
+			<logic>
+				<view>true</view>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<dataGroup>
+			<id>t12_0</id>
+			<cols>4</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>text_0</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>text_8</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>text_3</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>1</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>text_9</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>1</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>text_4</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>2</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>email</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>2</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>studiengang</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>3</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>zeugnisse</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>4</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>beschreibungen</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>4</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>modulantraege_pruefen</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>5</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+		<event type="finish">
+			<id>t4_finish</id>
+			<actions phase="pre">
+				<action id="9">
+					<![CDATA[
+					modulantraege_pruefen: f.modulantraege_pruefen;
+					def modulantraegeTasks = findTasks({it._id.in(modulantraege_pruefen.value)});
+					assignTasks(modulantraegeTasks);
+					finishTasks(modulantraegeTasks);
+					]]>
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<transition>
+		<id>t6</id>
+		<x>816</x>
+		<y>208</y>
+		<label>Verteilen</label>
+		<icon>settings</icon>
+		<trigger type="auto"/>
+		<event type="assign">
+			<id>t6_assign</id>
+			<actions phase="post">
+				<action id="7">
+					<![CDATA[
+					n: f.n,
+					modulantraege_cases: f.modulantraege_cases;
+					def modulantraegeCases = findCases({it._id.in(modulantraege_cases.value)});
+					def antraegeSkipFV = [];
+					def antraegeAnFV = [];
+					modulantraegeCases.each { modulantrag -> 
+					    if (modulantrag.dataSet["enum_verantwortliche"].value == "fv") {
+					        antraegeAnFV << modulantrag;
+					    } else {
+					        antraegeSkipFV << modulantrag
+					    }    
+					}
+					// verteile an FV
+					def fachvertraeter = antraegeAnFV.collect { modulantrag ->
+					    def modulCase = findCase({it._id.eq(modulantrag.dataSet["modul"].value[0])});
+					    return modulCase.dataSet["fachvertraeter"].value.id;
+					}
+					// groupBy
+					def userToAntrag = [:];
+					fachvertraeter.eachWithIndex { fvid, i ->
+					    if(userToAntrag.containsKey(fvid)) {
+					        userToAntrag[fvid] << antraegeAnFV[i].stringId
+					    } else {
+					        userToAntrag[fvid] = [antraegeAnFV[i].stringId]
+					    }
+					}
+					// Prüfung durch Fachvertreter
+					def zeugnisseTaskId = getTaskId("zeugnisse");
+					userToAntrag.each { fvid, modulantraegeCaseIds ->
+					    def pruefung = createCase("fv_pruefung");
+					    def initTask = assignTask("init", pruefung);
+					    def taskrefValue = [zeugnisseTaskId]
+					    def modulantragTaskIds = findTasks({it.transitionId.eq("entscheiden").and it.caseId.in(modulantraegeCaseIds)}).collect { t -> t.stringId }
+					    taskrefValue.addAll(modulantragTaskIds)
+					    setData(initTask, [
+					        "parent": [
+					            "value": [useCase.stringId],
+					            "type": "caseRef"
+					        ],
+					        "fachvertreter": [
+					            "value": [fvid],
+					            "type": "userList"
+					        ],
+					        "modulantraege": [
+					            "value": taskrefValue,
+					            "type": "taskRef"
+					        ]
+					    ]);
+					    finishTask(initTask);
+					}
+					change n value { userToAntrag.size(); }
+					// skip Modulanträge bereits entschieden bei PA
+					if (antraegeSkipFV.size() > 0) {
+					    def skipCaseIds = antraegeSkipFV.collect{it -> it.stringId}
+					    def modulantragTasks = findTasks({it.transitionId.eq("skip").and it.caseId.in(skipCaseIds)})
+					    assignTasks(modulantragTasks);
+					    finishTasks(modulantragTasks);
+					}
+					]]>
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<transition>
+		<id>t8</id>
+		<x>1136</x>
+		<y>208</y>
+		<label>Einsammeln</label>
+		<icon>settings</icon>
+		<trigger type="auto"/>
+		<event type="finish">
+			<id>t8_finish</id>
+			<actions phase="post">
+				<action id="8">
+					<![CDATA[
+					modulantraege_pa_print: f.modulantraege_pa_print,
+					modulantraege_cases: f.modulantraege_cases;
+					def printTasks = findTasks({it.transitionId.eq("print").and it.caseId.in(modulantraege_cases.value)});
+					change modulantraege_pa_print value { printTasks.collect {t -> t.stringId}; }
+					]]>
+				</action>
+			</actions>
+		</event>
+	</transition>
+	<transition>
+		<id>t9</id>
+		<x>1264</x>
+		<y>208</y>
+		<label>Antrag senden</label>
+		<assignPolicy>auto</assignPolicy>
+		<roleRef>
+			<id>PA</id>
+			<logic>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<dataGroup>
+			<id>t12_0</id>
+			<cols>4</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>text_0</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>text_8</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>text_3</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>1</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>text_9</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>1</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>text_4</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>2</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>email</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>2</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>studiengang</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>3</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>zeugnisse</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>4</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>beschreibungen</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>4</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>modulantraege_pa_print</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>5</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+	</transition>
+	<transition>
+		<id>zeugnisse</id>
+		<x>944</x>
+		<y>112</y>
+		<label>Zeugnisse</label>
+		<icon>format_align_justify</icon>
+		<dataGroup>
+			<id>zeugnisse_0</id>
+			<cols>4</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>zeugnisse</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>beschreibungen</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+	</transition>
+	<place>
+		<id>p1</id>
+		<x>208</x>
+		<y>144</y>
+		<tokens>1</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p10</id>
+		<x>1328</x>
+		<y>208</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p13</id>
+		<x>624</x>
+		<y>80</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p14</id>
+		<x>816</x>
+		<y>144</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p2</id>
+		<x>336</x>
+		<y>144</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p3</id>
+		<x>464</x>
+		<y>144</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p4</id>
+		<x>624</x>
+		<y>208</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p5</id>
+		<x>752</x>
+		<y>208</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p7</id>
+		<x>912</x>
+		<y>208</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p8</id>
+		<x>1040</x>
+		<y>208</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p9</id>
+		<x>1200</x>
+		<y>208</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<arc>
+		<id>a1</id>
+		<type>regular</type>
+		<sourceId>p1</sourceId>
+		<destinationId>t1</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a11</id>
+		<type>regular</type>
+		<sourceId>p5</sourceId>
+		<destinationId>t6</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a12</id>
+		<type>regular</type>
+		<sourceId>t6</sourceId>
+		<destinationId>p7</destinationId>
+		<multiplicity>1</multiplicity>
+		<reference>n</reference>
+	</arc>
+	<arc>
+		<id>a13</id>
+		<type>regular</type>
+		<sourceId>p7</sourceId>
+		<destinationId>fv_done</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a14</id>
+		<type>regular</type>
+		<sourceId>fv_done</sourceId>
+		<destinationId>p8</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a15</id>
+		<type>regular</type>
+		<sourceId>p8</sourceId>
+		<destinationId>t8</destinationId>
+		<multiplicity>1</multiplicity>
+		<reference>n</reference>
+	</arc>
+	<arc>
+		<id>a16</id>
+		<type>regular</type>
+		<sourceId>t8</sourceId>
+		<destinationId>p9</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a17</id>
+		<type>regular</type>
+		<sourceId>p9</sourceId>
+		<destinationId>t9</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a18</id>
+		<type>regular</type>
+		<sourceId>t9</sourceId>
+		<destinationId>p10</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a2</id>
+		<type>regular</type>
+		<sourceId>t1</sourceId>
+		<destinationId>p2</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a25</id>
+		<type>read</type>
+		<sourceId>p13</sourceId>
+		<destinationId>t10</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a27</id>
+		<type>regular</type>
+		<sourceId>modulantraege_stellen</sourceId>
+		<destinationId>p4</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a28</id>
+		<type>regular</type>
+		<sourceId>modulantraege_stellen</sourceId>
+		<destinationId>p13</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a3</id>
+		<type>regular</type>
+		<sourceId>p2</sourceId>
+		<destinationId>t2</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a30</id>
+		<type>read</type>
+		<sourceId>p14</sourceId>
+		<destinationId>zeugnisse</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a33</id>
+		<type>regular</type>
+		<sourceId>t4</sourceId>
+		<destinationId>p14</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a34</id>
+		<type>regular</type>
+		<sourceId>p14</sourceId>
+		<destinationId>t8</destinationId>
+		<multiplicity>1</multiplicity>
+		<breakpoint>
+			<x>1104</x>
+			<y>144</y>
+		</breakpoint>
+	</arc>
+	<arc>
+		<id>a4</id>
+		<type>regular</type>
+		<sourceId>t2</sourceId>
+		<destinationId>p3</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a5</id>
+		<type>regular</type>
+		<sourceId>p3</sourceId>
+		<destinationId>modulantraege_stellen</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a7</id>
+		<type>regular</type>
+		<sourceId>p4</sourceId>
+		<destinationId>t4</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a8</id>
+		<type>regular</type>
+		<sourceId>t4</sourceId>
+		<destinationId>p5</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+</document>

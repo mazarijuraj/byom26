@@ -1,0 +1,177 @@
+<document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://petriflow.com/petriflow.schema.xsd">
+	<id>process_deleter</id>
+	<version>1.0.0</version>
+	<initials>DEL</initials>
+	<title>Process Management</title>
+	<icon>device_hub</icon>
+	<defaultRole>false</defaultRole>
+	<anonymousRole>false</anonymousRole>
+	<transitionRole>false</transitionRole>
+	<roleRef>
+		<id>process_manager</id>
+		<caseLogic>
+			<create>true</create>
+			<delete>true</delete>
+			<view>true</view>
+		</caseLogic>
+	</roleRef>
+	<caseEvents>
+		<event type="create">
+			<id>process_deleter_create</id>
+			<actions phase="post">
+				<action id="3">
+					<![CDATA[
+					enumeration_map_1: f.enumeration_map_1;
+					change enumeration_map_1 options { [:]; }
+					
+					]]>
+				</action>
+			</actions>
+		</event>
+	</caseEvents>
+	<role>
+		<id>process_manager</id>
+		<title>Admin</title>
+	</role>
+	<data type="button">
+		<id>button_0</id>
+		<title/>
+		<placeholder>Delete Process and Instances</placeholder>
+	</data>
+	<data type="enumeration_map">
+		<id>enumeration_map_1</id>
+		<title/>
+		<options>
+			<option key="found">value</option>
+			<option key="wrong">value</option>
+		</options>
+		<init>found</init>
+	</data>
+	<data type="text">
+		<id>identifier</id>
+		<title>Net Identifier</title>
+	</data>
+	<transition>
+		<id>t1</id>
+		<x>720</x>
+		<y>112</y>
+		<label>Delete Processes</label>
+		<icon>delete_forever</icon>
+		<assignPolicy>auto</assignPolicy>
+		<roleRef>
+			<id>process_manager</id>
+			<logic>
+				<view>true</view>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<dataGroup>
+			<id>t1_0</id>
+			<cols>4</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>identifier</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<event type="set">
+					<id>identifier_set</id>
+					<actions phase="post">
+						<action id="1">
+							<![CDATA[
+							t1: t.t1,
+							button_0: f.button_0,
+							enumeration_map_1: f.enumeration_map_1,
+							identifier: f.identifier;
+							
+							if (identifier.value == null || identifier.value.trim() == "") {
+							    change enumeration_map_1 options { [:]; }
+							    make button_0, visible on t1 when { true }
+							} else {
+							
+							    def processes = petriNetService.getByIdentifier(identifier.value)
+							    if (processes.size() == 0) {
+							        change enumeration_map_1 options { ["wrong":"Process not found"]; }
+							        make button_0, visible on t1 when { true }
+							    } else {
+							        change enumeration_map_1 options { ["found":"Process exists"]; }
+							        make button_0, editable on t1 when { true }
+							    }
+							}
+							]]>
+						</action>
+					</actions>
+				</event>
+			</dataRef>
+			<dataRef>
+				<id>enumeration_map_1</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>1</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>icon</name>
+					<properties>
+						<option_icons>
+							<icon key="wrong">question_mark</icon>
+							<icon key="found">check</icon>
+						</option_icons>
+					</properties>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>button_0</id>
+				<logic>
+					<behavior>visible</behavior>
+				</logic>
+				<layout>
+					<x>3</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>1</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>raised</name>
+				</component>
+				<event type="set">
+					<id>button_0_set</id>
+					<actions phase="post">
+						<action id="2">
+							<![CDATA[
+							identifier: f.identifier;
+							
+							
+							def processes = petriNetService.getByIdentifier(identifier.value)
+							
+							processes.each { pn ->
+							    petriNetService.deletePetriNet(pn.stringId, loggedUser().transformToLoggedUser())
+							}
+							
+							change identifier value { ""; }
+							
+							
+							]]>
+						</action>
+					</actions>
+				</event>
+			</dataRef>
+		</dataGroup>
+	</transition>
+</document>
