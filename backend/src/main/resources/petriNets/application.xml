@@ -1,7 +1,7 @@
 <document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://petriflow.com/petriflow.schema.xsd">
 	<id>application</id>
 	<version>1.0.0</version>
-	<initials>AUS</initials>
+	<initials>APP</initials>
 	<title>Application</title>
 	<icon>fact_check</icon>
 	<defaultRole>false</defaultRole>
@@ -16,13 +16,13 @@
 		</caseLogic>
 	</roleRef>
 	<roleRef>
-		<id>PA</id>
+		<id>examiner</id>
 		<caseLogic>
 			<view>true</view>
 		</caseLogic>
 	</roleRef>
 	<role>
-		<id>PA</id>
+		<id>examiner</id>
 		<title>Examination Office</title>
 	</role>
 	<data type="file">
@@ -33,13 +33,13 @@
 		</component>
 	</data>
 	<data type="file">
-		<id>beschreibungen</id>
+		<id>description</id>
 		<title>Content descriptions</title>
 		<component>
 			<name>preview</name>
 		</component>
 	</data>
-	<data type="text">
+	<data type="text" immediate="true">
 		<id>email</id>
 		<title>Email</title>
 	</data>
@@ -48,31 +48,37 @@
 		<title/>
 		<init>&lt;p&gt;Below you will find a list of modules for which recognition is possible in the selected program of study. In this step, first select the modules for which you would like to check whether you can submit suitable achievements. The bullet points listed serve as an orientation. Examination achievements can be recognized provided there is no significant difference to your achievements in terms of the acquired competencies. In the next step, the module descriptions of all selected modules will be displayed, and you can enter your achievements accordingly.&lt;/p&gt;</init>
 	</data>
+	<data type="i18n">
+		<id>i18n_0</id>
+		<title/>
+		<init>Address</init>
+	</data>
+	<data type="i18n">
+		<id>i18n_1</id>
+		<title/>
+		<init>Application</init>
+	</data>
 	<data type="multichoice_map">
-		<id>modulantraege</id>
+		<id>modules</id>
 		<title>Modules</title>
 	</data>
 	<data type="caseRef">
-		<id>modulantraege_cases</id>
+		<id>module_application_cases</id>
 		<title/>
 		<allowedNets>
-			<allowedNet>modulantrag</allowedNet>
+			<allowedNet>module_application</allowedNet>
 		</allowedNets>
 	</data>
 	<data type="taskRef">
-		<id>modulantraege_pa_print</id>
+		<id>module_applications_exam_print</id>
 		<title/>
 	</data>
 	<data type="taskRef">
-		<id>modulantraege_print</id>
+		<id>module_applications_check</id>
 		<title/>
 	</data>
 	<data type="taskRef">
-		<id>modulantraege_pruefen</id>
-		<title/>
-	</data>
-	<data type="taskRef">
-		<id>modulantraege_tasks</id>
+		<id>module_applications_tasks</id>
 		<title/>
 	</data>
 	<data type="number">
@@ -80,16 +86,16 @@
 		<title>n</title>
 		<init>1</init>
 	</data>
-	<data type="enumeration_map">
-		<id>studiengang</id>
-		<title>Program of Study</title>
+	<data type="enumeration_map" immediate="true">
+		<id>study_program</id>
+		<title>Study Program</title>
 	</data>
-	<data type="text">
-		<id>text_0</id>
-		<title>First Name/Name</title>
+	<data type="text" immediate="true">
+		<id>first_name</id>
+		<title>First Name</title>
 	</data>
-	<data type="text">
-		<id>text_1</id>
+	<data type="text" immediate="true">
+		<id>last_name</id>
 		<title>Last Name</title>
 	</data>
 	<data type="text">
@@ -103,15 +109,15 @@
 		<init>&lt;p&gt;Here you will find links to the module descriptions of the modules you have selected. Check the covered content and competencies carefully and enter achievements if you believe that there is no significant difference between your achievements and the module content and competencies. For each entered achievement, also provide the page numbers of the transcripts of records and study contents so that we can check your details. You can submit multiple achievements for each module. If you delete all achievements for a module, this module will not be applied for.&lt;/p&gt;</init>
 	</data>
 	<data type="text">
-		<id>text_3</id>
+		<id>street</id>
 		<title>Street/No.</title>
 	</data>
 	<data type="text">
-		<id>text_4</id>
-		<title>Zip Code/City</title>
+		<id>postal_code</id>
+		<title>Postal Code</title>
 	</data>
 	<data type="text">
-		<id>text_5</id>
+		<id>city</id>
 		<title>City</title>
 	</data>
 	<data type="text">
@@ -125,16 +131,16 @@
 		<init>&lt;h1&gt;Application for Information on the Recognition of Examination Achievements&lt;/h1&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Notes:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Examination achievements can be recognized provided there is no significant difference in terms of acquired competencies compared to the achievements to be replaced. Please compare your module descriptions with our &lt;a href="https://www.fernuni-hagen.de/mi/studium/bsc_mathematik/module.shtml" rel="noopener noreferrer" target="_blank"&gt;module descriptions&lt;/a&gt; before submitting your application.&lt;/li&gt;&lt;li&gt;Recognition of examination achievements is always only possible for entire modules; partial achievements cannot be recognized.&lt;/li&gt;&lt;li&gt;When recognizing examination achievements completed at other institutions, the recognition is done without a grade. The grade of a module can only be transferred if the grading systems are comparable and the content and scope of the module match.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;The following application must be filled out as follows:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Enter your details.&lt;/li&gt;&lt;li&gt;Upload all achievement descriptions as PDFs. e.g., certificates and transcripts of records.&lt;/li&gt;&lt;li&gt;Upload all content descriptions as PDFs. e.g., module descriptions, tables of contents, excerpts from study guides or examination regulations showing the scope of the courses (ECTS credits or semester weekly hours), the content of the courses, and the form and duration of the examinations. We need these so that a recognition check can be carried out.&lt;/li&gt;&lt;/ul&gt;</init>
 	</data>
 	<data type="text">
-		<id>text_8</id>
-		<title>Matriculation Number (if applicable)</title>
+		<id>student_id</id>
+		<title>Student ID (if applicable)</title>
 	</data>
 	<data type="text">
-		<id>text_9</id>
+		<id>phone</id>
 		<title>Phone</title>
 	</data>
 	<data type="file">
-		<id>zeugnisse</id>
-		<title>Transcripts of Records</title>
+		<id>testimonials</id>
+		<title>Testimonials</title>
 		<component>
 			<name>preview</name>
 		</component>
@@ -147,7 +153,7 @@
 		<icon>sync</icon>
 	</transition>
 	<transition>
-		<id>modulantraege_stellen</id>
+		<id>modules_submit</id>
 		<x>528</x>
 		<y>144</y>
 		<label>Submit module applications</label>
@@ -181,7 +187,7 @@
 				</component>
 			</dataRef>
 			<dataRef>
-				<id>zeugnisse</id>
+				<id>testimonials</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -198,7 +204,7 @@
 				</component>
 			</dataRef>
 			<dataRef>
-				<id>beschreibungen</id>
+				<id>description</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -215,7 +221,7 @@
 				</component>
 			</dataRef>
 			<dataRef>
-				<id>modulantraege_tasks</id>
+				<id>module_applications_tasks</id>
 				<logic>
 					<behavior>editable</behavior>
 				</logic>
@@ -229,7 +235,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>modulantraege_cases</id>
+				<id>module_application_cases</id>
 				<logic>
 					<behavior>forbidden</behavior>
 				</logic>
@@ -249,17 +255,20 @@
 			<actions phase="post">
 				<action id="5">
 					<![CDATA[
-					modulantraege_pruefen: f.modulantraege_pruefen,
-					modulantraege_tasks: f.modulantraege_tasks,
-					modulantraege_cases: f.modulantraege_cases;
-					if (modulantraege_cases.value.size() == 0) {
-					    return;
+					module_applications_check: f.module_applications_check,
+					module_applications_tasks: f.module_applications_tasks,
+					module_application_cases: f.module_application_cases;
+
+					if (module_application_cases.value.size() == 0) {
+					    return
 					}
-					def modulantraegeTasks = findTasks({it._id.in(modulantraege_tasks.value)});
-					assignTasks(modulantraegeTasks);
-					finishTasks(modulantraegeTasks);
-					def modulantraegePATasks = findTasks({it.transitionId.eq("pruefen") & it.caseId.in(modulantraege_cases.value)});
-					change modulantraege_pruefen value { modulantraegePATasks.collect {pruefenTask -> pruefenTask.stringId}; }
+					def modulesTasks = findTasks(module_applications_tasks)
+					assignTasks(modulesTasks)
+					finishTasks(modulesTasks)
+					def moduleExaminerTasks = searchTasks("tasks: transitionId == 'review' and caseId in ${pfql(module_application_cases)}")
+					change module_applications_check value {
+						moduleExaminerTasks.collect { it.stringId }
+					}
 					]]>
 				</action>
 			</actions>
@@ -300,7 +309,7 @@
 				</component>
 			</dataRef>
 			<dataRef>
-				<id>text_0</id>
+				<id>first_name</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -315,58 +324,14 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_8</id>
+				<id>last_name</id>
 				<logic>
 					<behavior>editable</behavior>
+					<behavior>required</behavior>
 				</logic>
 				<layout>
 					<x>2</x>
 					<y>4</y>
-					<rows>1</rows>
-					<cols>2</cols>
-					<template>material</template>
-					<appearance>outline</appearance>
-				</layout>
-			</dataRef>
-			<dataRef>
-				<id>text_3</id>
-				<logic>
-					<behavior>editable</behavior>
-					<behavior>required</behavior>
-				</logic>
-				<layout>
-					<x>0</x>
-					<y>5</y>
-					<rows>1</rows>
-					<cols>2</cols>
-					<template>material</template>
-					<appearance>outline</appearance>
-				</layout>
-			</dataRef>
-			<dataRef>
-				<id>text_9</id>
-				<logic>
-					<behavior>editable</behavior>
-					<behavior>required</behavior>
-				</logic>
-				<layout>
-					<x>2</x>
-					<y>5</y>
-					<rows>1</rows>
-					<cols>2</cols>
-					<template>material</template>
-					<appearance>outline</appearance>
-				</layout>
-			</dataRef>
-			<dataRef>
-				<id>text_4</id>
-				<logic>
-					<behavior>editable</behavior>
-					<behavior>required</behavior>
-				</logic>
-				<layout>
-					<x>0</x>
-					<y>6</y>
 					<rows>1</rows>
 					<cols>2</cols>
 					<template>material</template>
@@ -380,7 +345,37 @@
 					<behavior>required</behavior>
 				</logic>
 				<layout>
+					<x>0</x>
+					<y>5</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>phone</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
 					<x>2</x>
+					<y>5</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>student_id</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
 					<y>6</y>
 					<rows>1</rows>
 					<cols>2</cols>
@@ -389,14 +384,95 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>studiengang</id>
+				<id>i18n_0</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>8</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>divider</name>
+					<property key="fontSize">12</property>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>city</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
 				</logic>
 				<layout>
 					<x>0</x>
-					<y>7</y>
+					<y>9</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>street</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>9</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>postal_code</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>10</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>i18n_1</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>12</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+				<component>
+					<name>divider</name>
+					<property key="fontSize">12</property>
+				</component>
+			</dataRef>
+			<dataRef>
+				<id>study_program</id>
+				<logic>
+					<behavior>editable</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>13</y>
 					<rows>1</rows>
 					<cols>4</cols>
 					<template>material</template>
@@ -404,14 +480,14 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>zeugnisse</id>
+				<id>testimonials</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
 				</logic>
 				<layout>
 					<x>0</x>
-					<y>8</y>
+					<y>14</y>
 					<rows>1</rows>
 					<cols>2</cols>
 					<template>material</template>
@@ -422,14 +498,14 @@
 				</component>
 			</dataRef>
 			<dataRef>
-				<id>beschreibungen</id>
+				<id>description</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
 				</logic>
 				<layout>
 					<x>2</x>
-					<y>8</y>
+					<y>14</y>
 					<rows>1</rows>
 					<cols>2</cols>
 					<template>material</template>
@@ -445,9 +521,12 @@
 			<actions phase="pre">
 				<action id="1">
 					<![CDATA[
-					studiengang: f.studiengang;
-					def studiengaenge = findCasesElastic("processIdentifier:studiengang", org.springframework.data.domain.PageRequest.of(0,200));
-					change studiengang options { studiengaenge.collectEntries{ studiengangCase -> [studiengangCase.stringId, "${studiengangCase.dataSet["name"].value}"] } }
+					study_program: f.study_program;
+
+					def studyPrograms = searchCases("cases: processIdentifier == 'study_program'")
+					change study_program options {
+						studyPrograms.collectEntries{ [it.stringId, "${it.dataSet["name"].value}"] }
+					}
 					]]>
 				</action>
 			</actions>
@@ -458,8 +537,10 @@
 			<actions phase="pre">
 				<action id="10">
 					<![CDATA[
-					text_0: f.text_0;
-					changeCaseProperty "title" about { "AUS - ${text_0.value}"; }
+					last_name: f.last_name,
+					first_name: f.first_name;
+
+					changeCaseProperty "title" about { "Appliation - ${first_name.value} ${last_name.value}"; }
 					]]>
 				</action>
 			</actions>
@@ -499,7 +580,7 @@
 				</component>
 			</dataRef>
 			<dataRef>
-				<id>zeugnisse</id>
+				<id>testimonials</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -513,7 +594,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>beschreibungen</id>
+				<id>description</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -577,7 +658,7 @@
 				</component>
 			</dataRef>
 			<dataRef>
-				<id>modulantraege</id>
+				<id>modules</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -600,20 +681,20 @@
 			<actions phase="pre">
 				<action id="2">
 					<![CDATA[
-					modulantraege: f.modulantraege,
-					studiengang: f.studiengang;
-					def studiengangCase = findCaseElastic("stringId:${studiengang.value}");
-					def modulIds = studiengangCase.dataSet["modulliste"].value;
-					def idQuery = "(" + modulIds.join(" OR ") + ")"
-					def modulCases = findCasesElastic("stringId:${idQuery}", org.springframework.data.domain.PageRequest.of(0,200));
-					change modulantraege options { modulCases.collectEntries{ modulCase -> [modulCase.stringId, "${modulCase.dataSet["nummer"].value} - ${modulCase.dataSet["name"].value} (${modulCase.dataSet["ects"].value.intValue()} ECTS) - [${modulCase.dataSet["inhalt"].value}]"] } }
-					]]>
-				</action>
-				<action id="6">
-					<![CDATA[
-					studiengang: f.studiengang,
-					header: f.header;
-					change header value { "<h1>Application for Recognition of Examination Achievements in the Program of Study " + (studiengang.options[studiengang.value]) + "</h1><p>Below you will find a list of modules for which recognition is possible in the selected program of study. In this step, first select the modules for which you would like to check whether you can submit suitable achievements. The bullet points listed serve as an orientation. Examination achievements can be recognized provided there is no significant difference to your achievements in terms of the acquired competencies. In the next step, the module descriptions of all selected modules will be displayed, and you can enter your achievements accordingly.</p>"; }
+					header: f.header,
+					modules: f.modules,
+					study_program: f.study_program;
+
+					def studyProgramCase = searchCase("case: id == '${study_program.value}'")
+					List<String> moduleIds = studyProgramCase.dataSet["module_list"].value
+					def moduleCases = searchCases("cases: id in ${pfql(moduleIds)}")
+
+					change modules options {
+						moduleCases.collectEntries{
+							[it.stringId, "${it.dataSet["number"].value} - ${it.dataSet["name"].value} (${it.dataSet["ects"].value.intValue()} ECTS)"]
+						}
+					}
+					change header value { "<h1>Application for Recognition of Examination Achievements in the Program of Study " + (study_program.options[study_program.value]) + "</h1><p>Below you will find a list of modules for which recognition is possible in the selected program of study. In this step, first select the modules for which you would like to check whether you can submit suitable achievements. The bullet points listed serve as an orientation. Examination achievements can be recognized provided there is no significant difference to your achievements in terms of the acquired competencies. In the next step, the module descriptions of all selected modules will be displayed, and you can enter your achievements accordingly.</p>"; }
 					]]>
 				</action>
 			</actions>
@@ -624,14 +705,15 @@
 			<actions phase="post">
 				<action id="3">
 					<![CDATA[
-					modulantraege_cases: f.modulantraege_cases,
-					modulantraege_tasks: f.modulantraege_tasks,
-					modulantraege: f.modulantraege;
-					def modulantraegeCaseIds = [];
-					def datenEintragenTaskIds = [];
-					modulantraege.value.each { modulId ->
-					    def modulantragCase = createCase("modulantrag");
-					    def initTask = assignTask("init", modulantragCase);
+					module_application_cases: f.module_application_cases,
+					module_applications_tasks: f.module_applications_tasks,
+					modules: f.modules;
+
+					def moduleApplicationCaseIds = []
+					def dataTaskIds = []
+					modules.value.each { modulId ->
+					    def modulAppCase = createCase("module_application")
+					    def initTask = assignTask("init", modulAppCase)
 					    setData(initTask, [
 					        "parent": [
 					            "value": [useCase.stringId],
@@ -641,14 +723,14 @@
 					            "value": [modulId],
 					            "type": "caseRef"
 					        ]
-					    ]);
-					    finishTask(initTask);
-					    def eintragenTaskId = getTaskId("eintragen", modulantragCase);
-					    modulantraegeCaseIds << modulantragCase.stringId;
-					    datenEintragenTaskIds << eintragenTaskId;
+					    ])
+					    finishTask(initTask)
+					    def registerTaskId = getTaskId("register", modulAppCase)
+					    moduleApplicationCaseIds << modulAppCase.stringId
+						dataTaskIds << registerTaskId
 					}
-					change modulantraege_tasks value { datenEintragenTaskIds; }
-					change modulantraege_cases value { modulantraegeCaseIds; }
+					change module_applications_tasks value { dataTaskIds }
+					change module_application_cases value { moduleApplicationCaseIds }
 					]]>
 				</action>
 			</actions>
@@ -661,7 +743,7 @@
 		<label>Check application</label>
 		<assignPolicy>auto</assignPolicy>
 		<roleRef>
-			<id>PA</id>
+			<id>examiner</id>
 			<logic>
 				<view>true</view>
 				<perform>true</perform>
@@ -672,7 +754,7 @@
 			<cols>4</cols>
 			<layout>grid</layout>
 			<dataRef>
-				<id>text_0</id>
+				<id>first_name</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -686,7 +768,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_8</id>
+				<id>student_id</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -700,7 +782,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_3</id>
+				<id>street</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -714,7 +796,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_9</id>
+				<id>phone</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -728,7 +810,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_4</id>
+				<id>postal_code</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -756,7 +838,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>studiengang</id>
+				<id>study_program</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -770,7 +852,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>zeugnisse</id>
+				<id>testimonials</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -784,7 +866,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>beschreibungen</id>
+				<id>description</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -798,7 +880,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>modulantraege_pruefen</id>
+				<id>module_applications_check</id>
 				<logic>
 					<behavior>editable</behavior>
 				</logic>
@@ -817,10 +899,11 @@
 			<actions phase="pre">
 				<action id="9">
 					<![CDATA[
-					modulantraege_pruefen: f.modulantraege_pruefen;
-					def modulantraegeTasks = findTasks({it._id.in(modulantraege_pruefen.value)});
-					assignTasks(modulantraegeTasks);
-					finishTasks(modulantraegeTasks);
+					module_applications_check: f.module_applications_check;
+
+					def modulesTasks = findTasks(module_applications_check)
+					assignTasks(modulesTasks)
+					finishTasks(modulesTasks)
 					]]>
 				</action>
 			</actions>
@@ -839,15 +922,17 @@
 				<action id="7">
 					<![CDATA[
 					n: f.n,
-					modulantraege_cases: f.modulantraege_cases;
-					def modulantraegeCases = findCases({it._id.in(modulantraege_cases.value)});
-					def antraegeSkipFV = [];
-					def antraegeAnFV = [];
-					modulantraegeCases.each { modulantrag -> 
-					    if (modulantrag.dataSet["enum_verantwortliche"].value == "fv") {
-					        antraegeAnFV << modulantrag;
+					module_application_cases: f.module_application_cases;
+
+					def moduleAppsSkipOwner = []
+					def antraegeAnFV = []
+
+					def modulesCases = findCases(module_application_cases)
+					modulesCases.each { moduleApp ->
+					    if (moduleApp.dataSet["responsible_person"].value == "owner") {
+					        antraegeAnFV << moduleApp
 					    } else {
-					        antraegeSkipFV << modulantrag
+					        moduleAppsSkipOwner << moduleApp
 					    }    
 					}
 					// verteile an FV
@@ -865,12 +950,12 @@
 					    }
 					}
 					// Prüfung durch Fachvertreter
-					def zeugnisseTaskId = getTaskId("zeugnisse");
-					userToAntrag.each { fvid, modulantraegeCaseIds ->
+					def testimonialsTaskId = getTaskId("testimonials");
+					userToAntrag.each { fvid, moduleApplicationCaseIds ->
 					    def pruefung = createCase("fv_pruefung");
 					    def initTask = assignTask("init", pruefung);
-					    def taskrefValue = [zeugnisseTaskId]
-					    def modulantragTaskIds = findTasks({it.transitionId.eq("entscheiden").and it.caseId.in(modulantraegeCaseIds)}).collect { t -> t.stringId }
+					    def taskrefValue = [testimonialsTaskId]
+					    def modulantragTaskIds = findTasks({it.transitionId.eq("entscheiden").and it.caseId.in(moduleApplicationCaseIds)}).collect { t -> t.stringId }
 					    taskrefValue.addAll(modulantragTaskIds)
 					    setData(initTask, [
 					        "parent": [
@@ -881,7 +966,7 @@
 					            "value": [fvid],
 					            "type": "userList"
 					        ],
-					        "modulantraege": [
+					        "modules": [
 					            "value": taskrefValue,
 					            "type": "taskRef"
 					        ]
@@ -890,8 +975,8 @@
 					}
 					change n value { userToAntrag.size(); }
 					// skip Modulanträge bereits entschieden bei PA
-					if (antraegeSkipFV.size() > 0) {
-					    def skipCaseIds = antraegeSkipFV.collect{it -> it.stringId}
+					if (moduleAppsSkipOwner.size() > 0) {
+					    def skipCaseIds = moduleAppsSkipOwner.collect{it -> it.stringId}
 					    def modulantragTasks = findTasks({it.transitionId.eq("skip").and it.caseId.in(skipCaseIds)})
 					    assignTasks(modulantragTasks);
 					    finishTasks(modulantragTasks);
@@ -913,10 +998,11 @@
 			<actions phase="post">
 				<action id="8">
 					<![CDATA[
-					modulantraege_pa_print: f.modulantraege_pa_print,
-					modulantraege_cases: f.modulantraege_cases;
-					def printTasks = findTasks({it.transitionId.eq("print").and it.caseId.in(modulantraege_cases.value)});
-					change modulantraege_pa_print value { printTasks.collect {t -> t.stringId}; }
+					module_applications_exam_print: f.module_applications_exam_print,
+					module_application_cases: f.module_application_cases;
+
+					def printTasks = findTasks({it.transitionId.eq("print").and it.caseId.in(module_application_cases.value)});
+					change module_applications_exam_print value { printTasks.collect {t -> t.stringId}; }
 					]]>
 				</action>
 			</actions>
@@ -929,7 +1015,7 @@
 		<label>Send application</label>
 		<assignPolicy>auto</assignPolicy>
 		<roleRef>
-			<id>PA</id>
+			<id>examiner</id>
 			<logic>
 				<perform>true</perform>
 			</logic>
@@ -939,7 +1025,7 @@
 			<cols>4</cols>
 			<layout>grid</layout>
 			<dataRef>
-				<id>text_0</id>
+				<id>first_name</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -953,7 +1039,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_8</id>
+				<id>student_id</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -967,7 +1053,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_3</id>
+				<id>street</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -981,7 +1067,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_9</id>
+				<id>phone</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -995,7 +1081,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_4</id>
+				<id>postal_code</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -1023,7 +1109,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>studiengang</id>
+				<id>study_program</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -1037,7 +1123,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>zeugnisse</id>
+				<id>testimonials</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -1051,7 +1137,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>beschreibungen</id>
+				<id>description</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -1065,7 +1151,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>modulantraege_pa_print</id>
+				<id>module_applications_exam_print</id>
 				<logic>
 					<behavior>editable</behavior>
 				</logic>
@@ -1081,17 +1167,17 @@
 		</dataGroup>
 	</transition>
 	<transition>
-		<id>zeugnisse</id>
+		<id>testimonials</id>
 		<x>944</x>
 		<y>112</y>
 		<label>Certificates</label>
 		<icon>format_align_justify</icon>
 		<dataGroup>
-			<id>zeugnisse_0</id>
+			<id>testimonials_0</id>
 			<cols>4</cols>
 			<layout>grid</layout>
 			<dataRef>
-				<id>zeugnisse</id>
+				<id>testimonials</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -1105,7 +1191,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>beschreibungen</id>
+				<id>description</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -1279,14 +1365,14 @@
 	<arc>
 		<id>a27</id>
 		<type>regular</type>
-		<sourceId>modulantraege_stellen</sourceId>
+		<sourceId>modules_submit</sourceId>
 		<destinationId>p4</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
 	<arc>
 		<id>a28</id>
 		<type>regular</type>
-		<sourceId>modulantraege_stellen</sourceId>
+		<sourceId>modules_submit</sourceId>
 		<destinationId>p13</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
@@ -1301,7 +1387,7 @@
 		<id>a30</id>
 		<type>read</type>
 		<sourceId>p14</sourceId>
-		<destinationId>zeugnisse</destinationId>
+		<destinationId>testimonials</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
 	<arc>
@@ -1333,7 +1419,7 @@
 		<id>a5</id>
 		<type>regular</type>
 		<sourceId>p3</sourceId>
-		<destinationId>modulantraege_stellen</destinationId>
+		<destinationId>modules_submit</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
 	<arc>

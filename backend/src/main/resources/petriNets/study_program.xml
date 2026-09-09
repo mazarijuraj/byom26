@@ -3,7 +3,7 @@
 	<version>1.0.0</version>
 	<initials>STP</initials>
 	<title>Study Program</title>
-	<icon>menu_book</icon>
+	<icon>school</icon>
 	<defaultRole>true</defaultRole>
 	<anonymousRole>false</anonymousRole>
 	<transitionRole>false</transitionRole>
@@ -30,6 +30,9 @@
 	<data type="caseRef">
 		<id>module_list</id>
 		<title>Modules</title>
+		<allowedNets>
+			<allowedNet>module</allowedNet>
+		</allowedNets>
 	</data>
 	<data type="multichoice_map">
 		<id>module_list_multichoice</id>
@@ -44,7 +47,7 @@
 					<![CDATA[
 					module_list: f.module_list_multichoice;
 
-					def modules = searchCases("processIdentifier eq module")
+					def modules = searchCases("cases: processIdentifier eq 'module'")
 					def module_list_options = modules.collectEntries{ module ->
 						[(module.stringId): module.title]
 					}
@@ -136,6 +139,20 @@
 				<layout>
 					<x>0</x>
 					<y>3</y>
+					<rows>1</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>module_list</id>
+				<logic>
+					<behavior>hidden</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>4</y>
 					<rows>1</rows>
 					<cols>4</cols>
 					<template>material</template>

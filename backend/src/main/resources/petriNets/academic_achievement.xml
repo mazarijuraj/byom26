@@ -11,7 +11,7 @@
 		<id>parent</id>
 		<title/>
 		<allowedNets>
-			<allowedNet>modulantrag</allowedNet>
+			<allowedNet>module_application</allowedNet>
 		</allowedNets>
 	</data>
 	<data type="button">
@@ -25,15 +25,16 @@
 					<![CDATA[
 					parent: f.parent;
 
-					def modulantragCase = findCaseElastic("stringId:${parent.value[0]}");
-					def formTaskId = getTaskId("form");
-					setData("eintragen", modulantragCase, [
+					def moduleAppCase = findCaseElastic("stringId:${parent.value[0]}")
+					def formTaskId = getTaskId("form")
+					// TODO: eintragen -> register
+					setData("register", moduleAppCase, [
 							"leistungen": [
-									"value": modulantragCase.dataSet["leistungen"].value - formTaskId,
+									"value": moduleAppCase.dataSet["leistungen"].value - formTaskId,
 									"type": "taskRef"
 							],
 							"leistungen_cases": [
-									"value": modulantragCase.dataSet["leistungen_cases"].value - useCase.stringId,
+									"value": moduleAppCase.dataSet["leistungen_cases"].value - useCase.stringId,
 									"type": "caseRef"
 							]
 					]);

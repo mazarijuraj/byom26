@@ -1,17 +1,21 @@
+# Bring Your Own Model 2026
+### 22 September, Hagen, Germany
 
+https://www.fernuni-hagen.de/ilovepetrinets/byom2026/
 
+## The process of recognizing academic achievements
 
-Betrachten wir als Beispiel eine Anerkennung im Bachelorstudiengang Wirtschaftsinformatik. Der Antrag wird ausgefüllt und über die dafür vorgesehene Webseite eingereicht. Für den Antrag lädt der Antragsteller neben dem ausgefüllten Anerkennungsantrag auch eine Datei mit allen Leistungsnachweisen und eine Datei mit allen Studieninhalten hoch.
-
-Nach Eingang der Unterlagen prüft das Prüfungsamt die Vollständigkeit der eingereichten Dokumente und fordert gegebenenfalls fehlende Unterlagen nach. Ist der Antrag vollständig, werden alle zugehörigen PDF-Dateien im Dokumentenmanagementsystem d.3 abgelegt und eine Akte für den Antrag erstellt. Anschließend definiert das Prüfungsamt in d.3 entsprechende Aufgaben für die Fachvertreter.
-
-Die Fachvertreter bearbeiten diese Aufgaben sequenziell. Dafür greifen sie auf die jeweils vollständige Akte mit allen zu dem Antrag gehörenden und in d.3 abgelegten Dateien zu, suchen in allen Dateien die für sie relevanten Teile heraus und dokumentieren das Ergebnis ihrer Prüfung in einer Textdatei auf einem gemeinsamen Netzlaufwerk. Erst wenn ein Fachvertreter seine Prüfung abgeschlossen hat, wird der nächste informiert. Jeder Fachvertreter erhält dabei Zugriff auf alle eingereichten Unterlagen.
-
-Nach Abschluss aller Prüfungen erstellt das Prüfungsamt mithilfe eines Java-Programms aus der Textdatei ein PDF-Dokument, das die Ergebnisse der Prüfung zusammenfasst. Dieses Dokument wird anschließend per E-Mail an den Studierenden versendet.
-
-Leider ergeben sich aus der jetzigen Umsetzung des Prozesses einige Probleme, von denen wir nur einige nennen wollen. Das Prüfungsamt kann nur Unterlagen nachfordern, aber nicht einzelne Modulanträge eines Antrags als unvollständig zurückweisen. Die Fachvertreter prüfen zwar nur die ihnen zugeteilten Module, sehen jedoch den vollständigen Antrag. Insbesondere suchen sie aus den Dateien mit allen Modul- und Leistungsbeschreibungen die für sie relevanten Teile heraus. Das Ergebnis der Antragsprüfung wird auf einem Netzwerklaufwerk in eine Textdatei geschrieben. Die Ergebnisse können nicht direkt im Dokumentenmanagementsystem d.3 eingetragen werden.
-
----
+> Original text:
+> 
+> Betrachten wir als Beispiel eine Anerkennung im Bachelorstudiengang Wirtschaftsinformatik. Der Antrag wird ausgefüllt und über die dafür vorgesehene Webseite eingereicht. Für den Antrag lädt der Antragsteller neben dem ausgefüllten Anerkennungsantrag auch eine Datei mit allen Leistungsnachweisen und eine Datei mit allen Studieninhalten hoch.
+> 
+> Nach Eingang der Unterlagen prüft das Prüfungsamt die Vollständigkeit der eingereichten Dokumente und fordert gegebenenfalls fehlende Unterlagen nach. Ist der Antrag vollständig, werden alle zugehörigen PDF-Dateien im Dokumentenmanagementsystem d.3 abgelegt und eine Akte für den Antrag erstellt. Anschließend definiert das Prüfungsamt in d.3 entsprechende Aufgaben für die Fachvertreter.
+>
+> Die Fachvertreter bearbeiten diese Aufgaben sequenziell. Dafür greifen sie auf die jeweils vollständige Akte mit allen zu dem Antrag gehörenden und in d.3 abgelegten Dateien zu, suchen in allen Dateien die für sie relevanten Teile heraus und dokumentieren das Ergebnis ihrer Prüfung in einer Textdatei auf einem gemeinsamen Netzlaufwerk. Erst wenn ein Fachvertreter seine Prüfung abgeschlossen hat, wird der nächste informiert. Jeder Fachvertreter erhält dabei Zugriff auf alle eingereichten Unterlagen.
+>
+> Nach Abschluss aller Prüfungen erstellt das Prüfungsamt mithilfe eines Java-Programms aus der Textdatei ein PDF-Dokument, das die Ergebnisse der Prüfung zusammenfasst. Dieses Dokument wird anschließend per E-Mail an den Studierenden versendet.
+>
+> Leider ergeben sich aus der jetzigen Umsetzung des Prozesses einige Probleme, von denen wir nur einige nennen wollen. Das Prüfungsamt kann nur Unterlagen nachfordern, aber nicht einzelne Modulanträge eines Antrags als unvollständig zurückweisen. Die Fachvertreter prüfen zwar nur die ihnen zugeteilten Module, sehen jedoch den vollständigen Antrag. Insbesondere suchen sie aus den Dateien mit allen Modul- und Leistungsbeschreibungen die für sie relevanten Teile heraus. Das Ergebnis der Antragsprüfung wird auf einem Netzwerklaufwerk in eine Textdatei geschrieben. Die Ergebnisse können nicht direkt im Dokumentenmanagementsystem d.3 eingetragen werden.
 
 Let us consider, as an example, recognition in the Bachelor's degree program in Business Informatics. The Application will be filled out and via the for that purpose intended website submitted. For the application, the applicant loads not only the completed recognition application but also a file containing all proof of performance and upload a file containing all study content. Upon receipt of the documents, the examination office checks the completeness of the submitted documents and, if necessary, requests missing documents.
 

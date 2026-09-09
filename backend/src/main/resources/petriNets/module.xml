@@ -3,46 +3,49 @@
 	<version>1.0.0</version>
 	<initials>MOD</initials>
 	<title>Module</title>
-	<icon>device_hub</icon>
+	<icon>menu_book</icon>
 	<defaultRole>true</defaultRole>
 	<anonymousRole>false</anonymousRole>
 	<transitionRole>false</transitionRole>
-	<data type="number">
+	<data type="number" immediate="true">
 		<id>ects</id>
 		<title>ECTS</title>
 	</data>
-	<data type="user">
-		<id>fachvertraeter</id>
-		<title>Subject Representative</title>
+	<data type="userList" immediate="true">
+		<id>owner</id>
+		<title>Module Owners</title>
 	</data>
 	<data type="text">
-		<id>inhalt</id>
+		<id>content</id>
 		<title>Content</title>
+		<component>
+			<name>textarea</name>
+		</component>
 	</data>
-	<data type="text">
-		<id>link</id>
-		<title>Link Module Description</title>
-	</data>
-	<data type="text">
+	<data type="text" immediate="true">
 		<id>name</id>
 		<title>Name</title>
 	</data>
-	<data type="text">
-		<id>nummer</id>
+	<data type="text" immediate="true">
+		<id>number</id>
 		<title>Number</title>
 	</data>
+	<data type="text">
+		<id>website</id>
+		<title>Website</title>
+	</data>
 	<transition>
-		<id>t1</id>
-		<x>368</x>
-		<y>240</y>
+		<id>create</id>
+		<x>144</x>
+		<y>144</y>
 		<label>Create</label>
 		<assignPolicy>auto</assignPolicy>
 		<dataGroup>
-			<id>t1_0</id>
+			<id>create_form</id>
 			<cols>4</cols>
 			<layout>grid</layout>
 			<dataRef>
-				<id>nummer</id>
+				<id>number</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -87,7 +90,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>link</id>
+				<id>content</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -95,29 +98,28 @@
 				<layout>
 					<x>0</x>
 					<y>1</y>
-					<rows>1</rows>
+					<rows>2</rows>
 					<cols>4</cols>
 					<template>material</template>
 					<appearance>outline</appearance>
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>inhalt</id>
+				<id>website</id>
 				<logic>
 					<behavior>editable</behavior>
-					<behavior>required</behavior>
 				</logic>
 				<layout>
 					<x>0</x>
-					<y>2</y>
+					<y>3</y>
 					<rows>1</rows>
-					<cols>4</cols>
+					<cols>2</cols>
 					<template>material</template>
 					<appearance>outline</appearance>
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>fachvertraeter</id>
+				<id>owner</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -133,17 +135,226 @@
 			</dataRef>
 		</dataGroup>
 	</transition>
+	<transition>
+		<id>read</id>
+		<x>336</x>
+		<y>144</y>
+		<label>Read</label>
+		<icon>remove_red_eye</icon>
+		<assignPolicy>auto</assignPolicy>
+		<dataGroup>
+			<id>read_form</id>
+			<cols>4</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>number</id>
+				<logic>
+					<behavior>visible</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>1</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>name</id>
+				<logic>
+					<behavior>visible</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>1</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>ects</id>
+				<logic>
+					<behavior>visible</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>3</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>1</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>content</id>
+				<logic>
+					<behavior>visible</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>1</y>
+					<rows>2</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>website</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>3</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>owner</id>
+				<logic>
+					<behavior>visible</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>3</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+	</transition>
+	<transition>
+		<id>update</id>
+		<x>336</x>
+		<y>208</y>
+		<label>Update</label>
+		<dataGroup>
+			<id>update_form</id>
+			<cols>4</cols>
+			<layout>grid</layout>
+			<dataRef>
+				<id>number</id>
+				<logic>
+					<behavior>visible</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>1</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>name</id>
+				<logic>
+					<behavior>visible</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>1</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>ects</id>
+				<logic>
+					<behavior>visible</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>3</x>
+					<y>0</y>
+					<rows>1</rows>
+					<cols>1</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>content</id>
+				<logic>
+					<behavior>visible</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>1</y>
+					<rows>2</rows>
+					<cols>4</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>website</id>
+				<logic>
+					<behavior>editable</behavior>
+				</logic>
+				<layout>
+					<x>0</x>
+					<y>3</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+			<dataRef>
+				<id>owner</id>
+				<logic>
+					<behavior>visible</behavior>
+					<behavior>required</behavior>
+				</logic>
+				<layout>
+					<x>2</x>
+					<y>3</y>
+					<rows>1</rows>
+					<cols>2</cols>
+					<template>material</template>
+					<appearance>outline</appearance>
+				</layout>
+			</dataRef>
+		</dataGroup>
+	</transition>
 	<place>
 		<id>p1</id>
-		<x>304</x>
-		<y>240</y>
+		<x>48</x>
+		<y>144</y>
 		<tokens>1</tokens>
 		<static>false</static>
 	</place>
 	<place>
 		<id>p2</id>
-		<x>432</x>
-		<y>240</y>
+		<x>240</x>
+		<y>144</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
+	<place>
+		<id>p3</id>
+		<x>240</x>
+		<y>208</y>
 		<tokens>0</tokens>
 		<static>false</static>
 	</place>
@@ -151,14 +362,42 @@
 		<id>a1</id>
 		<type>regular</type>
 		<sourceId>p1</sourceId>
-		<destinationId>t1</destinationId>
+		<destinationId>create</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
 	<arc>
 		<id>a2</id>
 		<type>regular</type>
-		<sourceId>t1</sourceId>
+		<sourceId>create</sourceId>
 		<destinationId>p2</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a4</id>
+		<type>regular</type>
+		<sourceId>create</sourceId>
+		<destinationId>p3</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a5</id>
+		<type>regular</type>
+		<sourceId>p3</sourceId>
+		<destinationId>update</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a6</id>
+		<type>regular</type>
+		<sourceId>update</sourceId>
+		<destinationId>p3</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a7</id>
+		<type>read</type>
+		<sourceId>p2</sourceId>
+		<destinationId>read</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
 </document>

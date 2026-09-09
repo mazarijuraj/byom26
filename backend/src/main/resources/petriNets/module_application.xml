@@ -8,67 +8,64 @@
 	<anonymousRole>false</anonymousRole>
 	<transitionRole>false</transitionRole>
 	<data type="button">
-		<id>add_leistung</id>
+		<id>add_achievement</id>
 		<title/>
 		<placeholder>add</placeholder>
 		<event type="set">
-			<id>add_leistung_set</id>
+			<id>add_achievement_set</id>
 			<actions phase="post">
 				<action id="7">
 					<![CDATA[
 					leistungen_cases: f.leistungen_cases,
 					leistungen: f.leistungen;
-					def leistung = createCase("leistung");
-					def initTask = assignTask("init", leistung);
+
+					def leistung = createCase("achievement")
+					def initTask = assignTask("init", leistung)
 					setData(initTask, [
 							"parent": [
 									"value": [useCase.stringId],
 									"type": "caseRef"
 							]
-					]);
-					finishTask(initTask);
-					change leistungen value { leistungen.value << getTaskId("form", leistung); }
-					change leistungen_cases value { leistungen_cases.value << leistung.stringId; }
+					])
+					finishTask(initTask)
+					change leistungen value { leistungen.value << getTaskId("form", leistung) }
+					change leistungen_cases value { leistungen_cases.value << leistung.stringId }
 					]]>
 				</action>
 			</actions>
 		</event>
 	</data>
 	<data type="text">
-		<id>begruendung_ablehnung_pa</id>
-		<title>Justification</title>
+		<id>rejection_reason</id>
+		<title>Reason for rejection</title>
 		<component>
 			<name>htmltextarea</name>
 		</component>
 	</data>
-	<data type="boolean">
-		<id>boolean_0</id>
-		<title/>
-		<init>false</init>
-	</data>
 	<data type="enumeration_map">
-		<id>entscheidung_print</id>
+		<id>decision</id>
 		<title>Decision</title>
 		<options>
 			<option key="ok">Recognized</option>
 			<option key="ko">Not Recognized</option>
 		</options>
 		<event type="set">
-			<id>entscheidung_print_set</id>
+			<id>decision_set</id>
 			<actions phase="post">
 				<action id="12">
 					<![CDATA[
-					entscheidung_print: f.entscheidung_print,
+					decision: f.decision,
 					print: t.print,
-					begruendung_ablehnung_pa: f.begruendung_ablehnung_pa;
-					make begruendung_ablehnung_pa, visible on print when { entscheidung_print.value == "ko" }
+					rejection_reason: f.rejection_reason;
+
+					make rejection_reason, visible on print when { decision.value == "ko" }
 					]]>
 				</action>
 			</actions>
 		</event>
 	</data>
 	<data type="enumeration_map">
-		<id>enum_entscheidung_pa</id>
+		<id>decision_exam_office</id>
 		<title>Decision</title>
 		<options>
 			<option key="ok">Approve recognition</option>
@@ -76,47 +73,32 @@
 		</options>
 	</data>
 	<data type="enumeration_map">
-		<id>enum_verantwortliche</id>
+		<id>responsible_person</id>
 		<title>Person Responsible</title>
 		<options>
-			<option key="pa">Decision by Examination Office</option>
-			<option key="fv">Decision by Subject Representative</option>
+			<option key="exam">Decision by Examination Office</option>
+			<option key="owner">Decision by Subject Representative</option>
 		</options>
-	</data>
-	<data type="enumeration_map">
-		<id>enumeration_map_0</id>
-		<title/>
-		<options>
-			<option key="key1">value</option>
-		</options>
-	</data>
-	<data type="enumeration_map">
-		<id>enumeration_map_1</id>
-		<title/>
 	</data>
 	<data type="text">
 		<id>header</id>
 		<title>Module Description</title>
 	</data>
-	<data type="text">
-		<id>inhalt</id>
-		<title/>
-	</data>
 	<data type="taskRef">
-		<id>leistungen</id>
+		<id>achievement_tasks</id>
 		<title/>
 		<event type="set">
-			<id>leistungen_set</id>
+			<id>achievement_tasks_set</id>
 			<actions phase="post">
 				<action id="4">
 					<![CDATA[
-					leistungen: f.leistungen,
+					achievement_tasks: f.achievement_tasks,
 					parent: f.parent;
-					if (leistungen.value.size() > 0) {
+					if (achievement_tasks.value.size() > 0) {
 						return;
 					}
 					def antragCase = findCaseElastic("stringId:${parent.value[0]}");
-					def formTaskId = getTaskId("eintragen");
+					def formTaskId = getTaskId("register");
 					setData("modulantraege_stellen", antragCase, [
 							"modulantraege_tasks": [
 									"value": antragCase.dataSet["modulantraege_tasks"].value - formTaskId,
@@ -133,18 +115,18 @@
 		</event>
 	</data>
 	<data type="caseRef">
-		<id>leistungen_cases</id>
+		<id>achievement_cases</id>
 		<title/>
 		<allowedNets>
-			<allowedNet>leistung</allowedNet>
+			<allowedNet>achievement</allowedNet>
 		</allowedNets>
 	</data>
 	<data type="taskRef">
-		<id>leistungen_fv</id>
+		<id>achievement_tasks_owner</id>
 		<title/>
 	</data>
 	<data type="taskRef">
-		<id>leistungen_pa</id>
+		<id>achievement_tasks_examiner</id>
 		<title/>
 	</data>
 	<data type="caseRef">
@@ -157,25 +139,18 @@
 					<![CDATA[
 					title_print: f.title_print,
 					header: f.header,
-					modul: f.modul;
+					module: f.modul;
 
-					def modulCase = findCaseElastic("stringId:${modul.value[0]}");
-//					change header value { "Sie möchten das Modul <b>" + modulCase.dataSet["nummer"].value + " - " + modulCase.dataSet["name"].value + " (" + modulCase.dataSet["ects"].value.intValue() + " ECTS)</b> der FernUniversität anerkennen lassen. Prüfen Sie die <a href="" + modulCase.dataSet["link"].value + "" target="_blank">Modulbeschreibung</a>. Tragen Sie dann von Ihnen erbrachte Leistung ein, welche Sie für die Anerkennung heranziehen wollen."; }
-//					change title_print value { "<b>" + modulCase.dataSet["nummer"].value + " - " + modulCase.dataSet["name"].value + " (" + modulCase.dataSet["ects"].value.intValue() + " ECTS)</b>"; }
+					def modulCase = searchCase("case: id == '${module.value[0]}'")
+					change header value { "Sie möchten das Modul <b>" + modulCase.dataSet["number"].value + " - " + modulCase.dataSet["name"].value + " (" + modulCase.dataSet["ects"].value.intValue() + " ECTS)</b> der FernUniversität anerkennen lassen. Prüfen Sie die <a href=\"${modulCase.dataSet["website"].value}\" target=\"_blank\">Modulbeschreibung</a>. Tragen Sie dann von Ihnen erbrachte Leistung ein, welche Sie für die Anerkennung heranziehen wollen." }
+					change title_print value { "<b>" + modulCase.dataSet["number"].value + " - " + modulCase.dataSet["name"].value + " (" + modulCase.dataSet["ects"].value.intValue() + " ECTS)</b>" }
 					]]>
 				</action>
 			</actions>
 		</event>
 		<allowedNets>
-			<allowedNet>modul</allowedNet>
+			<allowedNet>module</allowedNet>
 		</allowedNets>
-	</data>
-	<data type="multichoice">
-		<id>multichoice_0</id>
-		<title/>
-		<options>
-			<option key="Ich habe meine Leistung mit der Modulbeschreibung verglichen und möchte den Antrag stellen.">I have compared my achievement with the module description and would like to submit the application.</option>
-		</options>
 	</data>
 	<data type="caseRef">
 		<id>parent</id>
@@ -183,14 +158,6 @@
 		<allowedNets>
 			<allowedNet>application</allowedNet>
 		</allowedNets>
-	</data>
-	<data type="text">
-		<id>text_0</id>
-		<title/>
-	</data>
-	<data type="text">
-		<id>text_1</id>
-		<title/>
 	</data>
 	<data type="i18n">
 		<id>title</id>
@@ -206,7 +173,7 @@
 		</component>
 	</data>
 	<transition>
-		<id>eintragen</id>
+		<id>register</id>
 		<x>720</x>
 		<y>176</y>
 		<label>Enter data</label>
@@ -246,7 +213,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>add_leistung</id>
+				<id>add_achievement</id>
 				<logic>
 					<behavior>editable</behavior>
 				</logic>
@@ -263,7 +230,7 @@
 				</component>
 			</dataRef>
 			<dataRef>
-				<id>leistungen_cases</id>
+				<id>achievement_cases</id>
 				<logic>
 					<behavior>forbidden</behavior>
 				</logic>
@@ -278,28 +245,29 @@
 			</dataRef>
 		</dataGroup>
 		<event type="finish">
-			<id>eintragen_finish</id>
+			<id>register_finish</id>
 			<actions phase="post">
 				<action id="3">
 					<![CDATA[
-					leistungen_pa: f.leistungen_pa,
-					leistungen_cases: f.leistungen_cases,
+					achievement_tasks_examiner: f.achievement_tasks_examiner,
+					achievement_cases: f.achievement_cases,
 					leistungen: f.leistungen;
+
 					if (leistungen.value.size() == 0) {
-						return;
+						return
 					}
-					def leistungenTasks = findTasks({it._id.in(leistungen.value)});
-					assignTasks(leistungenTasks);
-					finishTasks(leistungenTasks);
-					def leistungenPATasks = findTasks({it.transitionId.eq("pruefen") & it.caseId.in(leistungen_cases.value)});
-					change leistungen_pa value { leistungenPATasks.collect {pruefenTask -> pruefenTask.stringId}; }
+					def leistungenTasks = findTasks(leistungen.value)
+					assignTasks(leistungenTasks)
+					finishTasks(leistungenTasks)
+					def leistungenPATasks = findTasks({it.transitionId.eq("review") & it.caseId.in(achievement_cases.value)})
+					change achievement_tasks_examiner value { leistungenPATasks.collect { it.stringId} }
 					]]>
 				</action>
 			</actions>
 		</event>
 	</transition>
 	<transition>
-		<id>entscheiden</id>
+		<id>decide</id>
 		<x>1008</x>
 		<y>208</y>
 		<label>Decide module application</label>
@@ -322,7 +290,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>enum_entscheidung_pa</id>
+				<id>decision_exam_office</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -336,22 +304,22 @@
 					<appearance>outline</appearance>
 				</layout>
 				<event type="set">
-					<id>enum_entscheidung_pa_set</id>
+					<id>decision_exam_office_set</id>
 					<actions phase="post">
 						<action id="8">
 							<![CDATA[
-							entscheiden: t.entscheiden,
-							enum_entscheidung_pa: f.enum_entscheidung_pa,
-							begruendung_ablehnung_pa: f.begruendung_ablehnung_pa;
-							make begruendung_ablehnung_pa, editable on entscheiden when { enum_entscheidung_pa.value == "ko" }
-							make begruendung_ablehnung_pa, hidden on entscheiden when { enum_entscheidung_pa.value != "ko" }
+							decide: t.decide,
+							decision_exam_office: f.decision_exam_office,
+							rejection_reason: f.rejection_reason;
+							make rejection_reason, editable on decide when { decision_exam_office.value == "ko" }
+							make rejection_reason, hidden on decide when { decision_exam_office.value != "ko" }
 							]]>
 						</action>
 					</actions>
 				</event>
 			</dataRef>
 			<dataRef>
-				<id>begruendung_ablehnung_pa</id>
+				<id>rejection_reason</id>
 				<logic>
 					<behavior>hidden</behavior>
 					<behavior>required</behavior>
@@ -369,7 +337,7 @@
 				</component>
 			</dataRef>
 			<dataRef>
-				<id>leistungen_fv</id>
+				<id>achievement_tasks_owner</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -385,13 +353,14 @@
 			</dataRef>
 		</dataGroup>
 		<event type="finish">
-			<id>entscheiden_finish</id>
+			<id>decide_finish</id>
 			<actions phase="post">
 				<action id="10">
 					<![CDATA[
-					enum_entscheidung_pa: f.enum_entscheidung_pa,
-					entscheidung_print: f.entscheidung_print;
-					change entscheidung_print value { enum_entscheidung_pa.value; }
+					decision_exam_office: f.decision_exam_office,
+					decision: f.decision;
+
+					change decision value { decision_exam_office.value; }
 					]]>
 				</action>
 			</actions>
@@ -436,7 +405,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>leistungen_cases</id>
+				<id>achievement_cases</id>
 				<logic>
 					<behavior>editable</behavior>
 				</logic>
@@ -455,21 +424,23 @@
 			<actions phase="post">
 				<action id="2">
 					<![CDATA[
-					leistungen_cases: f.leistungen_cases,
+					achievement_cases: f.achievement_cases,
 					leistungen: f.leistungen;
-					def leistung = createCase("leistung");
-					def initTask = assignTask("init", leistung);
+
+					def achievement = createCase("achievement")
+					def initTask = assignTask("init", achievement)
 					setData(initTask, [
 							"parent": [
 									"value": [useCase.stringId],
 									"type": "caseRef"
 							]
-					]);
-					finishTask(initTask);
-					def leistungTaskId = getTaskId("form", leistung)
-					change leistungen value { [leistungTaskId]; }
+					])
+					finishTask(initTask)
+
+					def achievementTaskId = getTaskId("form", achievement)
+					change leistungen value { [achievementTaskId] }
 					//make ["remove"],hidden on ([leistungTaskId]) when {true}
-					change leistungen_cases value { [leistung.stringId]; }
+					change achievement_cases value { [achievement.stringId] }
 					]]>
 				</action>
 			</actions>
@@ -499,7 +470,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>entscheidung_print</id>
+				<id>decision</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -513,7 +484,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>begruendung_ablehnung_pa</id>
+				<id>rejection_reason</id>
 				<logic>
 					<behavior>hidden</behavior>
 				</logic>
@@ -527,7 +498,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>leistungen_pa</id>
+				<id>achievement_tasks_examiner</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -543,7 +514,7 @@
 		</dataGroup>
 	</transition>
 	<transition>
-		<id>pruefen</id>
+		<id>review</id>
 		<x>848</x>
 		<y>176</y>
 		<label>Review module application</label>
@@ -567,7 +538,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>enum_verantwortliche</id>
+				<id>responsible_person</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -581,17 +552,17 @@
 					<appearance>outline</appearance>
 				</layout>
 				<event type="set">
-					<id>enum_verantwortliche_set</id>
+					<id>responsible_person_set</id>
 					<actions phase="post">
 						<action id="6">
 							<![CDATA[
-							pruefen: t.pruefen,
-							enum_entscheidung_pa: f.enum_entscheidung_pa,
-							enum_verantwortliche: f.enum_verantwortliche;
-							make enum_entscheidung_pa, editable on pruefen when { enum_verantwortliche.value == "pa" }
-							make enum_entscheidung_pa, hidden on pruefen when { enum_verantwortliche.value == "fv" }
-							if (enum_verantwortliche.value != "pa") {
-								change enum_entscheidung_pa value { null; }
+							review: t.review,
+							decision_exam_office: f.decision_exam_office,
+							responsible_person: f.responsible_person;
+							make decision_exam_office, editable on review when { responsible_person.value == "exam" }
+							make decision_exam_office, hidden on review when { responsible_person.value == "owner" }
+							if (responsible_person.value != "exam") {
+								change decision_exam_office value { null; }
 							}
 							]]>
 						</action>
@@ -599,7 +570,7 @@
 				</event>
 			</dataRef>
 			<dataRef>
-				<id>enum_entscheidung_pa</id>
+				<id>decision_exam_office</id>
 				<logic>
 					<behavior>hidden</behavior>
 					<behavior>required</behavior>
@@ -613,22 +584,22 @@
 					<appearance>outline</appearance>
 				</layout>
 				<event type="set">
-					<id>enum_entscheidung_pa_set</id>
+					<id>decision_exam_office_set</id>
 					<actions phase="post">
 						<action id="5">
 							<![CDATA[
-							enum_entscheidung_pa: f.enum_entscheidung_pa,
-							pruefen: t.pruefen,
-							begruendung_ablehnung_pa: f.begruendung_ablehnung_pa;
-							make begruendung_ablehnung_pa, editable on pruefen when { enum_entscheidung_pa.value == "ko" }
-							make begruendung_ablehnung_pa, hidden on pruefen when { enum_entscheidung_pa.value != "ko" }
+							decision_exam_office: f.decision_exam_office,
+							review: t.review,
+							rejection_reason: f.rejection_reason;
+							make rejection_reason, editable on review when { decision_exam_office.value == "ko" }
+							make rejection_reason, hidden on review when { decision_exam_office.value != "ko" }
 							]]>
 						</action>
 					</actions>
 				</event>
 			</dataRef>
 			<dataRef>
-				<id>begruendung_ablehnung_pa</id>
+				<id>rejection_reason</id>
 				<logic>
 					<behavior>hidden</behavior>
 					<behavior>required</behavior>
@@ -646,7 +617,7 @@
 				</component>
 			</dataRef>
 			<dataRef>
-				<id>leistungen_pa</id>
+				<id>achievement_tasks_examiner</id>
 				<logic>
 					<behavior>editable</behavior>
 				</logic>
@@ -661,13 +632,13 @@
 			</dataRef>
 		</dataGroup>
 		<event type="finish">
-			<id>pruefen_finish</id>
+			<id>review_finish</id>
 			<actions phase="post">
 				<action id="9">
 					<![CDATA[
-					leistungen_fv: f.leistungen_fv,
-					leistungen_cases: f.leistungen_cases;
-					def leistungenCases = findCases({it._id.in(leistungen_cases.value)});
+					achievement_tasks_owner: f.achievement_tasks_owner,
+					achievement_cases: f.achievement_cases;
+					def leistungenCases = findCases({it._id.in(achievement_cases.value)});
 					def vorhandeneLeistungen = [];
 					leistungenCases.each { leistung ->
 						if(leistung.dataSet["vorhanden"].value == "ja") {
@@ -675,7 +646,7 @@
 						}
 					}
 					def leistungenFVTasks = findTasks({it.transitionId.eq("print") & it.caseId.in(vorhandeneLeistungen)});
-					change leistungen_fv value { leistungenFVTasks.collect {printTask -> printTask.stringId}; }
+					change achievement_tasks_owner value { leistungenFVTasks.collect {printTask -> printTask.stringId}; }
 					]]>
 				</action>
 			</actions>
@@ -692,9 +663,10 @@
 			<actions phase="post">
 				<action id="11">
 					<![CDATA[
-					enum_entscheidung_pa: f.enum_entscheidung_pa,
-					entscheidung_print: f.entscheidung_print;
-					change entscheidung_print value { enum_entscheidung_pa.value; }
+					decision_exam_office: f.decision_exam_office,
+					decision: f.decision;
+
+					change decision value { decision_exam_office.value }
 					]]>
 				</action>
 			</actions>
@@ -781,13 +753,13 @@
 		<id>a3</id>
 		<type>regular</type>
 		<sourceId>p2</sourceId>
-		<destinationId>eintragen</destinationId>
+		<destinationId>register</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
 	<arc>
 		<id>a4</id>
 		<type>regular</type>
-		<sourceId>eintragen</sourceId>
+		<sourceId>register</sourceId>
 		<destinationId>p3</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
@@ -795,13 +767,13 @@
 		<id>a5</id>
 		<type>regular</type>
 		<sourceId>p3</sourceId>
-		<destinationId>pruefen</destinationId>
+		<destinationId>review</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
 	<arc>
 		<id>a6</id>
 		<type>regular</type>
-		<sourceId>pruefen</sourceId>
+		<sourceId>review</sourceId>
 		<destinationId>p4</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
@@ -809,13 +781,13 @@
 		<id>a7</id>
 		<type>regular</type>
 		<sourceId>p4</sourceId>
-		<destinationId>entscheiden</destinationId>
+		<destinationId>decide</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
 	<arc>
 		<id>a8</id>
 		<type>regular</type>
-		<sourceId>entscheiden</sourceId>
+		<sourceId>decide</sourceId>
 		<destinationId>p5</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>

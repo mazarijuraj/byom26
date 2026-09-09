@@ -5,6 +5,7 @@ import com.netgrif.application.engine.menu.domain.configurations.CaseViewBody
 import com.netgrif.application.engine.menu.domain.dashboard.DashboardItemBody
 import com.netgrif.application.engine.menu.domain.dashboard.DashboardManagementBody
 import com.netgrif.application.engine.menu.domain.templates.CustomViewTemplate
+import com.netgrif.application.engine.menu.domain.templates.FolderTemplate
 import com.netgrif.application.engine.menu.domain.templates.TabbedCaseViewTemplate
 import com.netgrif.application.engine.menu.service.MenuItemTemplateHolder
 import com.netgrif.application.engine.menu.service.interfaces.DashboardItemService
@@ -44,32 +45,97 @@ class ViewConfigurationRunner extends AbstractOrderedCommandLineRunner {
         log.info("All nets: ${allIdentifiers}")
     }
     private List<String> allIdentifiers = []
-    private Case personalFolder, admissionsFolder, studyFolder, scienceFolder, settingsFolder
+    private Case personalFolder, applicationsFolder, studyFolder, scienceFolder, settingsFolder
     private List<Case> folders
 
     @Override
     void run(String... args) throws Exception {
         createFolders()
+        createPersonalViews(personalFolder.dataSet["nodePath"].value as String)
+        createApplicationsViews(applicationsFolder.dataSet["nodePath"].value as String)
         createStudyViews(studyFolder.dataSet["nodePath"].value as String)
+        createResearchViews(scienceFolder.dataSet["nodePath"].value as String)
         createSettingsViews(settingsFolder.dataSet["nodePath"].value as String)
         configureDashboard()
     }
 
     void createFolders() {
-        this.personalFolder = createFolder("Personal", "account_circle")
-        this.admissionsFolder = createFolder("Admissions", "school")
+        this.personalFolder = createFolder("Personal", "person")
+        this.applicationsFolder = createFolder("Applications", "school")
         this.studyFolder = createFolder("Study", "book_2")
         this.scienceFolder = createFolder("Research", "science")
         this.settingsFolder = createFolder("Settings", "settings", [("global_admin:GLOBAL_ROLE"): new I18nString("Admin (\uD83C\uDF0D Global role)")])
-        folders = [this.personalFolder, this.admissionsFolder, this.studyFolder, this.scienceFolder, this.settingsFolder]
+        folders = [this.personalFolder, this.applicationsFolder, this.studyFolder, this.scienceFolder, this.settingsFolder]
     }
 
     Case createFolder(String name, String icon, Map<String, I18nString> permissions = [:]) {
-        def folder = MenuItemTemplateHolder.get(CustomViewTemplate.IDENTIFIER, "/", new I18nString(name)).get()
+        def folder = MenuItemTemplateHolder.get(FolderTemplate.IDENTIFIER, "/", new I18nString(name)).get()
         folder.menuIcon = icon
         folder.allowedRoles = permissions
-        folder.customViewSelector = "emptyView"
         return menuItemService.createOrIgnoreMenuItem(folder)
+    }
+
+    void createPersonalViews(String folderUri) {
+        MenuItemBody studentsItem = MenuItemTemplateHolder.get(
+                TabbedCaseViewTemplate.IDENTIFIER,
+                folderUri,
+                new I18nString("Students", [
+                        "sk": "Študenti",
+                        "de": "Studenten"
+                ])
+        ).get()
+        studentsItem.menuIcon = "person"
+        studentsItem.autoSelect = true
+        CaseViewBody studentsView = studentsItem.view as CaseViewBody
+        studentsView.filterBody.query = "cases: processIdentifier == 'student'"
+        studentsView.createCaseButtonTitle = new I18nString("Student", ["sk": "Študent", "de": "Student"])
+        studentsView.showMoreMenu = true
+        studentsView.allAllowedNets = false
+        studentsView.allowedNets = ["student"]
+        studentsView.defaultHeaders = ["student-first_name", "student-last_name", "student-student_id", "student-email", "student-phone"]
+        studentsView.requireTitleInCreation = false
+        menuItemService.createOrIgnoreMenuItem(studentsItem)
+    }
+
+    void createApplicationsViews(String folderUri) {
+        MenuItemBody allApplicationsItem = MenuItemTemplateHolder.get(
+                TabbedCaseViewTemplate.IDENTIFIER,
+                folderUri,
+                new I18nString("All Applications", [
+                        "sk": "",
+                        "de": ""
+                ])
+        ).get()
+        allApplicationsItem.menuIcon = "school"
+        allApplicationsItem.autoSelect = true
+        CaseViewBody allApplicationsView = allApplicationsItem.view as CaseViewBody
+        allApplicationsView.filterBody.query = "cases: processIdentifier == 'application'"
+        allApplicationsView.createCaseButtonTitle = new I18nString("New Application", ["sk": "Študent", "de": "Student"])
+        allApplicationsView.showMoreMenu = true
+        allApplicationsView.allAllowedNets = false
+        allApplicationsView.allowedNets = ["application"]
+        allApplicationsView.defaultHeaders = ["application-text_0", "application-text_1", "application-studiengang", "application-email"]
+        allApplicationsView.requireTitleInCreation = false
+        menuItemService.createOrIgnoreMenuItem(allApplicationsItem)
+
+        MenuItemBody reviewsItem = MenuItemTemplateHolder.get(
+                TabbedCaseViewTemplate.IDENTIFIER,
+                folderUri,
+                new I18nString("Reviews", [
+                        "sk": "",
+                        "de": ""
+                ])
+        ).get()
+        reviewsItem.menuIcon = "content_paste_search"
+        CaseViewBody reviewsView = reviewsItem.view as CaseViewBody
+        reviewsView.filterBody.query = "cases: processIdentifier == 'review'"
+        reviewsView.showMoreMenu = true
+        reviewsView.showCreateCaseButton = false
+        reviewsView.allAllowedNets = false
+        reviewsView.allowedNets = ["review"]
+        reviewsView.defaultHeaders = ["application-text_0", "application-text_1", "application-studiengang", "application-email"]
+        reviewsView.requireTitleInCreation = false
+        menuItemService.createOrIgnoreMenuItem(reviewsItem)
     }
 
     void createStudyViews(String folderUri) {
@@ -82,6 +148,7 @@ class ViewConfigurationRunner extends AbstractOrderedCommandLineRunner {
                 ])
         ).get()
         studyProgramsItem.menuIcon = "school"
+        studyProgramsItem.autoSelect = true
         CaseViewBody studyProgramsView = studyProgramsItem.view as CaseViewBody
         studyProgramsView.filterBody.query = "cases: processIdentifier == 'study_program'"
         studyProgramsView.createCaseButtonTitle = new I18nString("Study Program", ["sk": "Študijný program", "de": "Studienprogramm"])
@@ -91,6 +158,25 @@ class ViewConfigurationRunner extends AbstractOrderedCommandLineRunner {
         studyProgramsView.defaultHeaders = ["meta-title", "study_program-degree", "study_program-ects"]
         studyProgramsView.requireTitleInCreation = false
         menuItemService.createOrIgnoreMenuItem(studyProgramsItem)
+
+        MenuItemBody modulesItem = MenuItemTemplateHolder.get(
+                TabbedCaseViewTemplate.IDENTIFIER,
+                folderUri,
+                new I18nString("Modules", [
+                        "sk": "Predmety",
+                        "de": "Module"
+                ])
+        ).get()
+        modulesItem.menuIcon = "menu_book"
+        CaseViewBody modulesView = modulesItem.view as CaseViewBody
+        modulesView.filterBody.query = "cases: processIdentifier == 'module'"
+        modulesView.createCaseButtonTitle = new I18nString("Modules", ["sk": "Predmet", "de": "Module"])
+        modulesView.showMoreMenu = true
+        modulesView.allAllowedNets = false
+        modulesView.allowedNets = ["module"]
+        modulesView.defaultHeaders = ["module-number", "module-name", "module-ects", "module-module_owner"]
+        modulesView.requireTitleInCreation = false
+        menuItemService.createOrIgnoreMenuItem(modulesItem)
     }
 
     void createSettingsViews(String folderUri) {
@@ -158,6 +244,21 @@ class ViewConfigurationRunner extends AbstractOrderedCommandLineRunner {
         dashboardView.createCaseButtonTitle = new I18nString("Create Dashboard Item", ["sk": "Vytvor položku dashboardu", "de": "Dashboard-Element erstellen"])
         dashboardView.showMoreMenu = true
         menuItemService.createOrIgnoreMenuItem(dashboardMenuItem)
+    }
+
+    void createResearchViews(String folderUri) {
+        MenuItemBody allCasesMenuItem = MenuItemTemplateHolder.get(
+                TabbedCaseViewTemplate.IDENTIFIER,
+                folderUri,
+                new I18nString("All cases", [
+                        "sk": "Všetky prípady",
+                        "de": "Alle Fälle",
+                        "cz": "Všechny případy",
+                ])
+        ).get()
+        allCasesMenuItem.menuIcon = "assignment"
+        allCasesMenuItem.autoSelect = true
+        menuItemService.createOrIgnoreMenuItem(allCasesMenuItem)
     }
 
     void configureDashboard() {

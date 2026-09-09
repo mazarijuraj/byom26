@@ -24,7 +24,8 @@ class CustomRunner extends AbstractOrderedCommandLineRunner {
             "review",
             "module",
             "module_application",
-            "study_program"
+            "study_program",
+            "student"
     ]
 
     @Override

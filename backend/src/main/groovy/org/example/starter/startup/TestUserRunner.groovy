@@ -32,6 +32,7 @@ class TestUserRunner extends AbstractOrderedCommandLineRunner {
     private final static USER_NAMES = [
             "Robin Bergenthum", "Peter Fettke", "Gabriel Juhás", "Jakub Kovář", "Robert Lorenz", "Wolfgang Reisig"
     ]
+    public static List<IUser> TEACHERS = []
 
     @Override
     void run(String... args) throws Exception {
@@ -45,17 +46,18 @@ class TestUserRunner extends AbstractOrderedCommandLineRunner {
             String surname = fullName.split(" ")[1]
             String email = name2email(fullName)
             IUser user = userService.findByEmail(email, false)
-            if (user != null) {
-                return
+            if (user == null) {
+                user = userService.saveNew(new User(
+                        name: name,
+                        surname: surname,
+                        email: email,
+                        password: "password",
+                        state: UserState.ACTIVE,
+                        authorities: [userAuthority, adminAuthority, systemAuthority] as Set<Authority>,
+                        processRoles: allRoles)
+                )
             }
-            userService.saveNew(new User(
-                    name: name,
-                    surname: surname,
-                    email: email,
-                    password: "password",
-                    state: UserState.ACTIVE,
-                    authorities: [userAuthority, adminAuthority, systemAuthority] as Set<Authority>,
-                    processRoles: allRoles))
+            TEACHERS << user
         }
     }
 

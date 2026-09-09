@@ -1,20 +1,20 @@
 <document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://petriflow.com/petriflow.schema.xsd">
 	<id>review</id>
 	<version>1.0.0</version>
-	<initials>FVP</initials>
-	<title>Review by Subject Representative</title>
-	<icon>fact_check</icon>
+	<initials>REV</initials>
+	<title>Review by Module Owner</title>
+	<icon>content_paste_search</icon>
 	<defaultRole>false</defaultRole>
 	<anonymousRole>false</anonymousRole>
 	<transitionRole>false</transitionRole>
 	<userRef>
-		<id>fachvertreter</id>
+		<id>reviewer</id>
 		<caseLogic>
 			<view>true</view>
 		</caseLogic>
 	</userRef>
 	<data type="userList">
-		<id>fachvertreter</id>
+		<id>reviewer</id>
 		<title/>
 	</data>
 	<data type="taskRef">
@@ -65,7 +65,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>fachvertreter</id>
+				<id>reviewer</id>
 				<logic>
 					<behavior>editable</behavior>
 				</logic>
@@ -101,7 +101,7 @@
 		<label>Review module applications</label>
 		<assignPolicy>auto</assignPolicy>
 		<userRef>
-			<id>fachvertreter</id>
+			<id>reviewer</id>
 			<logic>
 				<view>true</view>
 				<perform>true</perform>
