@@ -685,9 +685,9 @@
 					modules: f.modules,
 					study_program: f.study_program;
 
-					def studyProgramCase = searchCase("case: id == '${study_program.value}'")
+					def studyProgramCase = findCase(study_program)
 					List<String> moduleIds = studyProgramCase.dataSet["module_list"].value
-					def moduleCases = searchCases("cases: id in ${pfql(moduleIds)}")
+					def moduleCases = findCases(moduleIds)
 
 					change modules options {
 						moduleCases.collectEntries{
@@ -925,35 +925,35 @@
 					module_application_cases: f.module_application_cases;
 
 					def moduleAppsSkipOwner = []
-					def antraegeAnFV = []
+					def moduleAppsToOwner = []
 
 					def modulesCases = findCases(module_application_cases)
 					modulesCases.each { moduleApp ->
 					    if (moduleApp.dataSet["responsible_person"].value == "owner") {
-					        antraegeAnFV << moduleApp
+					        moduleAppsToOwner << moduleApp
 					    } else {
 					        moduleAppsSkipOwner << moduleApp
 					    }    
 					}
-					// verteile an FV
-					def fachvertraeter = antraegeAnFV.collect { modulantrag ->
-					    def modulCase = findCase({it._id.eq(modulantrag.dataSet["modul"].value[0])});
-					    return modulCase.dataSet["fachvertraeter"].value.id;
+					// Distribute to owners
+					def owners = moduleAppsToOwner.collect { modulApp ->
+					    def modulCase = findCase(modulApp.dataSet["modul"].value[0])
+					    return modulCase.dataSet["owner"].value.id;
 					}
-					// groupBy
-					def userToAntrag = [:];
-					fachvertraeter.eachWithIndex { fvid, i ->
-					    if(userToAntrag.containsKey(fvid)) {
-					        userToAntrag[fvid] << antraegeAnFV[i].stringId
+					// Group by owner
+					def userToModuleApp = [:];
+					owners.eachWithIndex { ownerId, i ->
+					    if(userToModuleApp.containsKey(ownerId)) {
+					        userToModuleApp[ownerId] << moduleAppsToOwner[i].stringId
 					    } else {
-					        userToAntrag[fvid] = [antraegeAnFV[i].stringId]
+					        userToModuleApp[ownerId] = [moduleAppsToOwner[i].stringId]
 					    }
 					}
-					// Prüfung durch Fachvertreter
-					def testimonialsTaskId = getTaskId("testimonials");
-					userToAntrag.each { fvid, moduleApplicationCaseIds ->
-					    def pruefung = createCase("fv_pruefung");
-					    def initTask = assignTask("init", pruefung);
+					// Review by owner
+					def testimonialsTaskId = getTaskId("testimonials")
+					userToModuleApp.each { ownerId, moduleApplicationCaseIds ->
+					    def reviewCase = createCase("review")
+					    def initTask = assignTask("init", reviewCase)
 					    def taskrefValue = [testimonialsTaskId]
 					    def modulantragTaskIds = findTasks({it.transitionId.eq("entscheiden").and it.caseId.in(moduleApplicationCaseIds)}).collect { t -> t.stringId }
 					    taskrefValue.addAll(modulantragTaskIds)
@@ -962,24 +962,24 @@
 					            "value": [useCase.stringId],
 					            "type": "caseRef"
 					        ],
-					        "fachvertreter": [
-					            "value": [fvid],
+					        "reviewer": [
+					            "value": [ownerId],
 					            "type": "userList"
 					        ],
 					        "modules": [
 					            "value": taskrefValue,
 					            "type": "taskRef"
 					        ]
-					    ]);
-					    finishTask(initTask);
+					    ])
+					    finishTask(initTask)
 					}
-					change n value { userToAntrag.size(); }
-					// skip Modulanträge bereits entschieden bei PA
+					change n value { userToModuleApp.size() }
+					// skip module application decided by the examination board
 					if (moduleAppsSkipOwner.size() > 0) {
 					    def skipCaseIds = moduleAppsSkipOwner.collect{it -> it.stringId}
-					    def modulantragTasks = findTasks({it.transitionId.eq("skip").and it.caseId.in(skipCaseIds)})
-					    assignTasks(modulantragTasks);
-					    finishTasks(modulantragTasks);
+					    def skipTasks = searchTasks("tasks: transitionId = 'skip' and caseId in ${pfql(skipCaseIds)}")
+					    assignTasks(skipTasks)
+					    finishTasks(skipTasks)
 					}
 					]]>
 				</action>

@@ -39,6 +39,9 @@
 		<title>Modules</title>
 		<component>
 			<name>caseref</name>
+			<properties>
+				<property key="headers">module-number,module-name,module-ects,module-owner</property>
+			</properties>
 		</component>
 		<event type="get">
 			<id>module_list_get</id>
@@ -243,9 +246,6 @@
 					<template>material</template>
 					<appearance>outline</appearance>
 				</layout>
-				<component>
-					<name>caseref</name>
-				</component>
 			</dataRef>
 		</dataGroup>
 	</transition>

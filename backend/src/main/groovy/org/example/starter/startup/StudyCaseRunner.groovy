@@ -250,11 +250,11 @@ class StudyCaseRunner extends AbstractOrderedCommandLineRunner {
                             "type" : "text"
                     ],
                     "owner"  : [
-                            "value": TestUserRunner.TEACHERS.collect { it.stringId },
-                            "type" : "userList"
+                            "value": TestUserRunner.TEACHERS[0].stringId,
+                            "type" : "user"
                     ],
                     "website": [
-                            "value": "https://www.fernuni-hagen.de/wirtschaftswissenschaft/studium/module/${module["number"]}.shtml",
+                            "value": "https://www.fernuni-hagen.de/wirtschaftswissenschaft/studium/module/${module["number"]}.shtml" as String,
                             "type" : "text"
                     ]
             ])

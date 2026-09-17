@@ -16,11 +16,11 @@
 			<actions phase="post">
 				<action id="7">
 					<![CDATA[
-					leistungen_cases: f.leistungen_cases,
-					leistungen: f.leistungen;
+					achievement_cases: f.achievement_cases,
+					achievement_tasks: f.achievement_tasks;
 
-					def leistung = createCase("achievement")
-					def initTask = assignTask("init", leistung)
+					def achievementCase = createCase("achievement")
+					def initTask = assignTask("init", achievementCase)
 					setData(initTask, [
 							"parent": [
 									"value": [useCase.stringId],
@@ -28,8 +28,8 @@
 							]
 					])
 					finishTask(initTask)
-					change leistungen value { leistungen.value << getTaskId("form", leistung) }
-					change leistungen_cases value { leistungen_cases.value << leistung.stringId }
+					change achievement_tasks value { achievement_tasks.value << getTaskId("form", achievementCase) }
+					change achievement_cases value { achievement_cases.value << achievementCase.stringId }
 					]]>
 				</action>
 			</actions>
@@ -97,15 +97,15 @@
 					if (achievement_tasks.value.size() > 0) {
 						return;
 					}
-					def antragCase = findCaseElastic("stringId:${parent.value[0]}");
-					def formTaskId = getTaskId("register");
-					setData("modulantraege_stellen", antragCase, [
-							"modulantraege_tasks": [
-									"value": antragCase.dataSet["modulantraege_tasks"].value - formTaskId,
+					def applicationCase = findCase(parent)
+					def formTaskId = getTaskId("register")
+					setData("modules_submit", applicationCase, [
+							"module_applications_tasks": [
+									"value": applicationCase.dataSet["module_applications_tasks"].value - formTaskId,
 									"type": "taskRef"
 							],
-							"modulantraege_cases": [
-									"value": antragCase.dataSet["modulantraege_cases"].value - useCase.stringId,
+							"module_applications_cases": [
+									"value": applicationCase.dataSet["module_applications_cases"].value - useCase.stringId,
 									"type": "caseRef"
 							]
 					]);
@@ -141,8 +141,10 @@
 					header: f.header,
 					module: f.modul;
 
-					def modulCase = searchCase("case: id == '${module.value[0]}'")
-					change header value { "Sie möchten das Modul <b>" + modulCase.dataSet["number"].value + " - " + modulCase.dataSet["name"].value + " (" + modulCase.dataSet["ects"].value.intValue() + " ECTS)</b> der FernUniversität anerkennen lassen. Prüfen Sie die <a href=\"${modulCase.dataSet["website"].value}\" target=\"_blank\">Modulbeschreibung</a>. Tragen Sie dann von Ihnen erbrachte Leistung ein, welche Sie für die Anerkennung heranziehen wollen." }
+					def modulCase = findCase(module)
+					change header value {
+						"You wish to have the <b>" + modulCase.dataSet["number"].value + " - " + modulCase.dataSet["name"].value + " (" + modulCase.dataSet["ects"].value.intValue() + " ECTS) module from the FernUniversität recognized. You can check the module <a href=\"${modulCase.dataSet["website"].value}\" target=\"_blank\">description</a>. Then, enter the coursework you have completed that you wish to use for this recognition."
+					}
 					change title_print value { "<b>" + modulCase.dataSet["number"].value + " - " + modulCase.dataSet["name"].value + " (" + modulCase.dataSet["ects"].value.intValue() + " ECTS)</b>" }
 					]]>
 				</action>
@@ -199,7 +201,7 @@
 				</component>
 			</dataRef>
 			<dataRef>
-				<id>leistungen</id>
+				<id>achievement_tasks</id>
 				<logic>
 					<behavior>editable</behavior>
 				</logic>
@@ -251,15 +253,16 @@
 					<![CDATA[
 					achievement_tasks_examiner: f.achievement_tasks_examiner,
 					achievement_cases: f.achievement_cases,
-					leistungen: f.leistungen;
+					achievement_tasks: f.achievement_tasks;
 
-					if (leistungen.value.size() == 0) {
+					if (achievement_tasks.value.size() == 0) {
 						return
 					}
-					def leistungenTasks = findTasks(leistungen.value)
-					assignTasks(leistungenTasks)
-					finishTasks(leistungenTasks)
-					def leistungenPATasks = findTasks({it.transitionId.eq("review") & it.caseId.in(achievement_cases.value)})
+					def achievementTasks = findTasks(achievement_tasks)
+					assignTasks(achievementTasks)
+					finishTasks(achievementTasks)
+
+					def leistungenPATasks = searchTasks("tasks: transitionId == 'review' and caseId in ${pfql(achievement_cases)}")
 					change achievement_tasks_examiner value { leistungenPATasks.collect { it.stringId} }
 					]]>
 				</action>
@@ -311,6 +314,7 @@
 							decide: t.decide,
 							decision_exam_office: f.decision_exam_office,
 							rejection_reason: f.rejection_reason;
+
 							make rejection_reason, editable on decide when { decision_exam_office.value == "ko" }
 							make rejection_reason, hidden on decide when { decision_exam_office.value != "ko" }
 							]]>
@@ -425,7 +429,7 @@
 				<action id="2">
 					<![CDATA[
 					achievement_cases: f.achievement_cases,
-					leistungen: f.leistungen;
+					achievement_tasks: f.achievement_tasks;
 
 					def achievement = createCase("achievement")
 					def initTask = assignTask("init", achievement)
@@ -438,7 +442,7 @@
 					finishTask(initTask)
 
 					def achievementTaskId = getTaskId("form", achievement)
-					change leistungen value { [achievementTaskId] }
+					change achievement_tasks value { [achievementTaskId] }
 					//make ["remove"],hidden on ([leistungTaskId]) when {true}
 					change achievement_cases value { [achievement.stringId] }
 					]]>
@@ -559,10 +563,11 @@
 							review: t.review,
 							decision_exam_office: f.decision_exam_office,
 							responsible_person: f.responsible_person;
+
 							make decision_exam_office, editable on review when { responsible_person.value == "exam" }
 							make decision_exam_office, hidden on review when { responsible_person.value == "owner" }
 							if (responsible_person.value != "exam") {
-								change decision_exam_office value { null; }
+								change decision_exam_office value { null }
 							}
 							]]>
 						</action>
@@ -591,6 +596,7 @@
 							decision_exam_office: f.decision_exam_office,
 							review: t.review,
 							rejection_reason: f.rejection_reason;
+
 							make rejection_reason, editable on review when { decision_exam_office.value == "ko" }
 							make rejection_reason, hidden on review when { decision_exam_office.value != "ko" }
 							]]>
@@ -638,15 +644,16 @@
 					<![CDATA[
 					achievement_tasks_owner: f.achievement_tasks_owner,
 					achievement_cases: f.achievement_cases;
-					def leistungenCases = findCases({it._id.in(achievement_cases.value)});
-					def vorhandeneLeistungen = [];
-					leistungenCases.each { leistung ->
-						if(leistung.dataSet["vorhanden"].value == "ja") {
-							vorhandeneLeistungen << leistung.stringId;
+
+					def achievementCases = findCases(achievement_cases)
+					def approvedAchievements = []
+					achievementCases.each { achievement ->
+						if(achievement.dataSet["verification"].value == "ok") {
+							approvedAchievements << achievement.stringId
 						}
 					}
-					def leistungenFVTasks = findTasks({it.transitionId.eq("print") & it.caseId.in(vorhandeneLeistungen)});
-					change achievement_tasks_owner value { leistungenFVTasks.collect {printTask -> printTask.stringId}; }
+					def printTasks = searchTasks("tasks: transitionId = 'print' and caseId in ${pfql(approvedAchievements)}")
+					change achievement_tasks_owner value { printTasks.collect { it.stringId } }
 					]]>
 				</action>
 			</actions>

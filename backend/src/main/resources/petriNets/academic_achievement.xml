@@ -25,16 +25,15 @@
 					<![CDATA[
 					parent: f.parent;
 
-					def moduleAppCase = findCaseElastic("stringId:${parent.value[0]}")
+					def moduleAppCase = findCase(parent)
 					def formTaskId = getTaskId("form")
-					// TODO: eintragen -> register
 					setData("register", moduleAppCase, [
-							"leistungen": [
-									"value": moduleAppCase.dataSet["leistungen"].value - formTaskId,
+							"achievement_tasks": [
+									"value": moduleAppCase.dataSet["achievement_tasks"].value - formTaskId,
 									"type": "taskRef"
 							],
-							"leistungen_cases": [
-									"value": moduleAppCase.dataSet["leistungen_cases"].value - useCase.stringId,
+							"achievement_cases": [
+									"value": moduleAppCase.dataSet["achievement_cases"].value - useCase.stringId,
 									"type": "caseRef"
 							]
 					]);
@@ -49,35 +48,35 @@
 		</event>
 	</data>
 	<data type="text">
-		<id>text_0</id>
+		<id>achievement</id>
 		<title>Achievement</title>
 	</data>
 	<data type="text">
-		<id>text_1</id>
+		<id>institute</id>
 		<title>Institute</title>
 	</data>
 	<data type="text">
-		<id>text_3</id>
+		<id>grade</id>
 		<title>Grade</title>
 	</data>
 	<data type="text">
-		<id>text_5</id>
+		<id>ects</id>
 		<title>ECTS</title>
 	</data>
 	<data type="text">
-		<id>text_6</id>
-		<title>Achievement description page</title>
+		<id>achievement_page</id>
+		<title>Achievement page</title>
 	</data>
 	<data type="text">
-		<id>text_7</id>
-		<title>Content description page</title>
+		<id>content_page</id>
+		<title>Content page</title>
 	</data>
 	<data type="enumeration_map">
-		<id>vorhanden</id>
+		<id>verification</id>
 		<title>Achievement verification</title>
 		<options>
-			<option key="ja">Achievement proven by certificate</option>
-			<option key="nein">Unproven achievement</option>
+			<option key="approved">Approved</option>
+			<option key="rejected">Rejected</option>
 		</options>
 	</data>
 	<transition>
@@ -90,7 +89,7 @@
 			<cols>9</cols>
 			<layout>grid</layout>
 			<dataRef>
-				<id>text_1</id>
+				<id>institute</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -105,7 +104,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_0</id>
+				<id>achievement</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -120,7 +119,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_5</id>
+				<id>ects</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -135,7 +134,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_3</id>
+				<id>grade</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -150,7 +149,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_6</id>
+				<id>achievement_page</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -165,7 +164,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_7</id>
+				<id>content_page</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>
@@ -215,7 +214,7 @@
 			<cols>9</cols>
 			<layout>grid</layout>
 			<dataRef>
-				<id>text_1</id>
+				<id>institute</id>
 				<logic>
 					<behavior>visible</behavior>
 					<behavior>required</behavior>
@@ -230,7 +229,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_0</id>
+				<id>achievement</id>
 				<logic>
 					<behavior>visible</behavior>
 					<behavior>required</behavior>
@@ -245,7 +244,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_5</id>
+				<id>ects</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -259,7 +258,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_3</id>
+				<id>grade</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -273,7 +272,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_6</id>
+				<id>achievement_page</id>
 				<logic>
 					<behavior>visible</behavior>
 					<behavior>required</behavior>
@@ -288,7 +287,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_7</id>
+				<id>content_page</id>
 				<logic>
 					<behavior>visible</behavior>
 					<behavior>required</behavior>
@@ -303,7 +302,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>vorhanden</id>
+				<id>verification</id>
 				<logic>
 					<behavior>hidden</behavior>
 					<behavior>required</behavior>
@@ -329,7 +328,7 @@
 			<cols>9</cols>
 			<layout>grid</layout>
 			<dataRef>
-				<id>text_1</id>
+				<id>institute</id>
 				<logic>
 					<behavior>visible</behavior>
 					<behavior>required</behavior>
@@ -344,7 +343,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_0</id>
+				<id>achievement</id>
 				<logic>
 					<behavior>visible</behavior>
 					<behavior>required</behavior>
@@ -359,7 +358,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_5</id>
+				<id>ects</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -373,7 +372,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_3</id>
+				<id>grade</id>
 				<logic>
 					<behavior>visible</behavior>
 				</logic>
@@ -387,7 +386,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_6</id>
+				<id>achievement_page</id>
 				<logic>
 					<behavior>visible</behavior>
 					<behavior>required</behavior>
@@ -402,7 +401,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>text_7</id>
+				<id>content_page</id>
 				<logic>
 					<behavior>visible</behavior>
 					<behavior>required</behavior>
@@ -417,7 +416,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>vorhanden</id>
+				<id>verification</id>
 				<logic>
 					<behavior>editable</behavior>
 					<behavior>required</behavior>

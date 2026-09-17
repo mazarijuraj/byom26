@@ -174,7 +174,7 @@ class ViewConfigurationRunner extends AbstractOrderedCommandLineRunner {
         modulesView.showMoreMenu = true
         modulesView.allAllowedNets = false
         modulesView.allowedNets = ["module"]
-        modulesView.defaultHeaders = ["module-number", "module-name", "module-ects", "module-module_owner"]
+        modulesView.defaultHeaders = ["module-number", "module-name", "module-ects", "module-owner"]
         modulesView.requireTitleInCreation = false
         menuItemService.createOrIgnoreMenuItem(modulesItem)
     }

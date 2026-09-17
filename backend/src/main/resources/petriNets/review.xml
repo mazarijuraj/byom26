@@ -18,7 +18,7 @@
 		<title/>
 	</data>
 	<data type="taskRef">
-		<id>modulantraege</id>
+		<id>module_applications</id>
 		<title/>
 	</data>
 	<data type="caseRef">
@@ -79,7 +79,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>modulantraege</id>
+				<id>module_applications</id>
 				<logic>
 					<behavior>editable</behavior>
 				</logic>
@@ -112,7 +112,7 @@
 			<cols>4</cols>
 			<layout>grid</layout>
 			<dataRef>
-				<id>modulantraege</id>
+				<id>module_applications</id>
 				<logic>
 					<behavior>editable</behavior>
 				</logic>
@@ -131,18 +131,20 @@
 			<actions phase="post">
 				<action id="1">
 					<![CDATA[
-					modulantraege: f.modulantraege;
-					def modulantraege = findTasks({it._id.in(modulantraege.value)});
-					assignTasks(modulantraege);
-					finishTasks(modulantraege);
+					module_applications: f.module_applications;
+
+					def moduleAppTasks = findTasks(module_applications)
+					assignTasks(moduleAppTasks)
+					finishTasks(moduleAppTasks)
 					]]>
 				</action>
 				<action id="2">
 					<![CDATA[
 					parent: f.parent;
-					def parentCase = findCase({it._id.eq(parent.value[0])});
-					assignTask("fv_done", parentCase);
-					finishTask("fv_done", parentCase);
+
+					def parentCase = findCase(parent)
+					assignTask("fv_done", parentCase)
+					finishTask("fv_done", parentCase)
 					]]>
 				</action>
 			</actions>
