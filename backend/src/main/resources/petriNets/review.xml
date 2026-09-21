@@ -13,9 +13,9 @@
 			<view>true</view>
 		</caseLogic>
 	</roleRef>
-	<data type="userList">
+	<data type="userList" immediate="true">
 		<id>reviewer</id>
-		<title/>
+		<title>Reviewer</title>
 	</data>
 	<data type="taskRef">
 		<id>module_applications</id>

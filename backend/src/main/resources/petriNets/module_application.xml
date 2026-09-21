@@ -77,7 +77,7 @@
 		<title>Person Responsible</title>
 		<options>
 			<option key="exam">Decision by Examination Office</option>
-			<option key="owner">Decision by Subject Representative</option>
+			<option key="owner">Decision by Module Owner</option>
 		</options>
 	</data>
 	<data type="text">

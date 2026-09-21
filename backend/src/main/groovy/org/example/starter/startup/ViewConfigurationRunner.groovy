@@ -188,7 +188,7 @@ class ViewConfigurationRunner extends AbstractOrderedCommandLineRunner {
         reviewsView.showCreateCaseButton = false
         reviewsView.allAllowedNets = false
         reviewsView.allowedNets = ["review"]
-        reviewsView.defaultHeaders = ["meta-title"]
+        reviewsView.defaultHeaders = ["meta-title", "review-reviewer"]
         reviewsView.requireTitleInCreation = false
         menuItemService.createOrIgnoreMenuItem(reviewsItem)
     }
