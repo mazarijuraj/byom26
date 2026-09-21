@@ -4,7 +4,7 @@
 	<initials>MAP</initials>
 	<title>Module Application</title>
 	<icon>device_hub</icon>
-	<defaultRole>false</defaultRole>
+	<defaultRole>true</defaultRole>
 	<anonymousRole>false</anonymousRole>
 	<transitionRole>false</transitionRole>
 	<data type="button">
@@ -143,7 +143,7 @@
 
 					def modulCase = findCase(module)
 					change header value {
-						"You wish to have the <b>" + modulCase.dataSet["number"].value + " - " + modulCase.dataSet["name"].value + " (" + modulCase.dataSet["ects"].value.intValue() + " ECTS) module from the FernUniversität recognized. You can check the module <a href=\"${modulCase.dataSet["website"].value}\" target=\"_blank\">description</a>. Then, enter the coursework you have completed that you wish to use for this recognition."
+						"You wish to have the <b>" + modulCase.dataSet["number"].value + " - " + modulCase.dataSet["name"].value + " (" + modulCase.dataSet["ects"].value.intValue() + " ECTS)</b> module from the FernUniversität recognized. You can check the module <a href=\"${modulCase.dataSet["website"].value}\" target=\"_blank\">description</a>. Then, enter the coursework you have completed that you wish to use for this recognition."
 					}
 					change title_print value { "<b>" + modulCase.dataSet["number"].value + " - " + modulCase.dataSet["name"].value + " (" + modulCase.dataSet["ects"].value.intValue() + " ECTS)</b>" }
 					]]>
@@ -652,7 +652,7 @@
 							approvedAchievements << achievement.stringId
 						}
 					}
-					def printTasks = searchTasks("tasks: transitionId = 'print' and caseId in ${pfql(approvedAchievements)}")
+					def printTasks = searchTasks("tasks: transitionId == 'print' and caseId in ${pfql(approvedAchievements)}")
 					change achievement_tasks_owner value { printTasks.collect { it.stringId } }
 					]]>
 				</action>

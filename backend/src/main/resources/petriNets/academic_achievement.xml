@@ -4,7 +4,7 @@
 	<initials>ACH</initials>
 	<title>Achievement</title>
 	<icon>device_hub</icon>
-	<defaultRole>false</defaultRole>
+	<defaultRole>true</defaultRole>
 	<anonymousRole>false</anonymousRole>
 	<transitionRole>false</transitionRole>
 	<data type="caseRef">

@@ -63,7 +63,10 @@ class ViewConfigurationRunner extends AbstractOrderedCommandLineRunner {
         this.personalFolder = createFolder("Personal", "person")
         this.applicationsFolder = createFolder("Applications", "school")
         this.studyFolder = createFolder("Study", "book_2")
-        this.scienceFolder = createFolder("Research", "science")
+        this.scienceFolder = createFolder("Research", "science", [
+                ("global_admin:GLOBAL_ROLE"): new I18nString("Admin (\uD83C\uDF0D Global role)"),
+                ("global_teacher:GLOBAL_ROLE"): new I18nString("Teacher (\uD83C\uDF0D Global role)")
+        ])
         this.settingsFolder = createFolder("Settings", "settings", [("global_admin:GLOBAL_ROLE"): new I18nString("Admin (\uD83C\uDF0D Global role)")])
         folders = [this.personalFolder, this.applicationsFolder, this.studyFolder, this.scienceFolder, this.settingsFolder]
     }
@@ -102,38 +105,90 @@ class ViewConfigurationRunner extends AbstractOrderedCommandLineRunner {
                 TabbedCaseViewTemplate.IDENTIFIER,
                 folderUri,
                 new I18nString("All Applications", [
-                        "sk": "",
-                        "de": ""
+                        "sk": "Všetky prihlášky",
+                        "de": "Alle Anträge"
                 ])
         ).get()
         allApplicationsItem.menuIcon = "school"
         allApplicationsItem.autoSelect = true
+        allApplicationsItem.allowedRoles = [
+                ("global_admin:GLOBAL_ROLE"): new I18nString("Admin (\uD83C\uDF0D Global role)"),
+                ("global_teacher:GLOBAL_ROLE"): new I18nString("Teacher (\uD83C\uDF0D Global role)")
+        ]
         CaseViewBody allApplicationsView = allApplicationsItem.view as CaseViewBody
         allApplicationsView.filterBody.query = "cases: processIdentifier == 'application'"
-        allApplicationsView.createCaseButtonTitle = new I18nString("New Application", ["sk": "Študent", "de": "Student"])
+        allApplicationsView.showCreateCaseButton = false
         allApplicationsView.showMoreMenu = true
         allApplicationsView.allAllowedNets = false
         allApplicationsView.allowedNets = ["application"]
-        allApplicationsView.defaultHeaders = ["application-text_0", "application-text_1", "application-studiengang", "application-email"]
+        allApplicationsView.defaultHeaders = ["application-first_name", "application-last_name", "application-study_program", "application-email"]
         allApplicationsView.requireTitleInCreation = false
         menuItemService.createOrIgnoreMenuItem(allApplicationsItem)
+
+        MenuItemBody pendingApplicationsItem = MenuItemTemplateHolder.get(
+                TabbedCaseViewTemplate.IDENTIFIER,
+                folderUri,
+                new I18nString("Pending Applications", [
+                        "sk": "Čakajúce prihlášky",
+                        "de": "Ausstehende Anträge"
+                ])
+        ).get()
+        pendingApplicationsItem.menuIcon = "school"
+        pendingApplicationsItem.allowedRoles = [
+                ("global_admin:GLOBAL_ROLE"): new I18nString("Admin (\uD83C\uDF0D Global role)"),
+                ("global_teacher:GLOBAL_ROLE"): new I18nString("Teacher (\uD83C\uDF0D Global role)")
+        ]
+        CaseViewBody pendingApplicationsView = pendingApplicationsItem.view as CaseViewBody
+        pendingApplicationsView.filterBody.query = "cases: processIdentifier == 'application'"// todo
+        pendingApplicationsView.showCreateCaseButton = false
+        pendingApplicationsView.showMoreMenu = true
+        pendingApplicationsView.allAllowedNets = false
+        pendingApplicationsView.allowedNets = ["application"]
+        pendingApplicationsView.defaultHeaders = ["application-first_name", "application-last_name", "application-study_program", "application-email"]
+        pendingApplicationsView.requireTitleInCreation = false
+        menuItemService.createOrIgnoreMenuItem(pendingApplicationsItem)
+
+        MenuItemBody myApplicationsItem = MenuItemTemplateHolder.get(
+                TabbedCaseViewTemplate.IDENTIFIER,
+                folderUri,
+                new I18nString("My Applications", [
+                        "sk": "Moje prihlášky",
+                        "de": "Meine Anträge"
+                ])
+        ).get()
+        myApplicationsItem.bannedRoles = [("global_teacher:GLOBAL_ROLE"): new I18nString("Teacher (\uD83C\uDF0D Global role)")]
+        myApplicationsItem.menuIcon = "school"
+        myApplicationsItem.autoSelect = true
+        CaseViewBody myApplicationsView = myApplicationsItem.view as CaseViewBody
+        myApplicationsView.filterBody.query = "cases: processIdentifier == 'application' and author eq loggedUser.id"
+        myApplicationsView.createCaseButtonTitle = new I18nString("New Application", ["sk": "Nová prihláška", "de": "Neuer Antrag"])
+        myApplicationsView.showMoreMenu = true
+        myApplicationsView.allAllowedNets = false
+        myApplicationsView.allowedNets = ["application"]
+        myApplicationsView.defaultHeaders = ["application-first_name", "application-last_name", "application-study_program", "application-email"]
+        myApplicationsView.requireTitleInCreation = false
+        menuItemService.createOrIgnoreMenuItem(myApplicationsItem)
 
         MenuItemBody reviewsItem = MenuItemTemplateHolder.get(
                 TabbedCaseViewTemplate.IDENTIFIER,
                 folderUri,
                 new I18nString("Reviews", [
-                        "sk": "",
-                        "de": ""
+                        "sk": "Hodnotenia",
+                        "de": "Prüfungen"
                 ])
         ).get()
         reviewsItem.menuIcon = "content_paste_search"
+        reviewsItem.allowedRoles = [
+                ("global_admin:GLOBAL_ROLE"): new I18nString("Admin (\uD83C\uDF0D Global role)"),
+                ("global_teacher:GLOBAL_ROLE"): new I18nString("Teacher (\uD83C\uDF0D Global role)")
+        ]
         CaseViewBody reviewsView = reviewsItem.view as CaseViewBody
         reviewsView.filterBody.query = "cases: processIdentifier == 'review'"
         reviewsView.showMoreMenu = true
         reviewsView.showCreateCaseButton = false
         reviewsView.allAllowedNets = false
         reviewsView.allowedNets = ["review"]
-        reviewsView.defaultHeaders = ["application-text_0", "application-text_1", "application-studiengang", "application-email"]
+        reviewsView.defaultHeaders = ["meta-title"]
         reviewsView.requireTitleInCreation = false
         menuItemService.createOrIgnoreMenuItem(reviewsItem)
     }

@@ -7,20 +7,43 @@
 	<defaultRole>true</defaultRole>
 	<anonymousRole>false</anonymousRole>
 	<transitionRole>false</transitionRole>
-	<data type="number" immediate="true">
-		<id>ects</id>
-		<title>ECTS</title>
-	</data>
-	<data type="user" immediate="true">
-		<id>owner</id>
-		<title>Module Owner</title>
-	</data>
+	<roleRef>
+		<id>admin</id>
+		<caseLogic>
+			<create>true</create>
+			<delete>true</delete>
+		</caseLogic>
+	</roleRef>
+	<roleRef>
+		<id>default</id>
+		<caseLogic>
+			<view>true</view>
+		</caseLogic>
+	</roleRef>
+	<roleRef>
+		<id>teacher</id>
+		<caseLogic>
+			<create>true</create>
+		</caseLogic>
+	</roleRef>
+	<role global="true">
+		<id>admin</id>
+		<title/>
+	</role>
+	<role global="true">
+		<id>teacher</id>
+		<title/>
+	</role>
 	<data type="text">
 		<id>content</id>
 		<title>Content</title>
 		<component>
 			<name>textarea</name>
 		</component>
+	</data>
+	<data type="number" immediate="true">
+		<id>ects</id>
+		<title>ECTS</title>
 	</data>
 	<data type="text" immediate="true">
 		<id>name</id>
@@ -30,6 +53,10 @@
 		<id>number</id>
 		<title>Number</title>
 	</data>
+	<data type="user" immediate="true">
+		<id>owner</id>
+		<title>Module Owner</title>
+	</data>
 	<data type="text">
 		<id>website</id>
 		<title>Website</title>
@@ -37,9 +64,22 @@
 	<transition>
 		<id>create</id>
 		<x>144</x>
-		<y>144</y>
+		<y>176</y>
 		<label>Create</label>
+		<icon>add</icon>
 		<assignPolicy>auto</assignPolicy>
+		<roleRef>
+			<id>admin</id>
+			<logic>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<roleRef>
+			<id>teacher</id>
+			<logic>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
 		<dataGroup>
 			<id>create_form</id>
 			<cols>4</cols>
@@ -136,9 +176,22 @@
 		</dataGroup>
 	</transition>
 	<transition>
-		<id>read</id>
+		<id>delete</id>
 		<x>336</x>
-		<y>144</y>
+		<y>176</y>
+		<label>Delete</label>
+		<icon>delete_outline</icon>
+		<roleRef>
+			<id>admin</id>
+			<logic>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+	</transition>
+	<transition>
+		<id>read</id>
+		<x>240</x>
+		<y>48</y>
 		<label>Read</label>
 		<icon>remove_red_eye</icon>
 		<assignPolicy>auto</assignPolicy>
@@ -234,9 +287,22 @@
 	</transition>
 	<transition>
 		<id>update</id>
-		<x>336</x>
-		<y>208</y>
+		<x>240</x>
+		<y>304</y>
 		<label>Update</label>
+		<icon>edit</icon>
+		<roleRef>
+			<id>admin</id>
+			<logic>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<roleRef>
+			<id>teacher</id>
+			<logic>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
 		<dataGroup>
 			<id>update_form</id>
 			<cols>4</cols>
@@ -336,7 +402,7 @@
 	<place>
 		<id>p1</id>
 		<x>48</x>
-		<y>144</y>
+		<y>176</y>
 		<tokens>1</tokens>
 		<static>false</static>
 	</place>
@@ -354,11 +420,25 @@
 		<tokens>0</tokens>
 		<static>false</static>
 	</place>
+	<place>
+		<id>p4</id>
+		<x>432</x>
+		<y>176</y>
+		<tokens>0</tokens>
+		<static>false</static>
+	</place>
 	<arc>
 		<id>a1</id>
 		<type>regular</type>
 		<sourceId>p1</sourceId>
 		<destinationId>create</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a10</id>
+		<type>regular</type>
+		<sourceId>p3</sourceId>
+		<destinationId>delete</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
 	<arc>
@@ -394,6 +474,20 @@
 		<type>read</type>
 		<sourceId>p2</sourceId>
 		<destinationId>read</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a8</id>
+		<type>regular</type>
+		<sourceId>p2</sourceId>
+		<destinationId>delete</destinationId>
+		<multiplicity>1</multiplicity>
+	</arc>
+	<arc>
+		<id>a9</id>
+		<type>regular</type>
+		<sourceId>delete</sourceId>
+		<destinationId>p4</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
 </document>

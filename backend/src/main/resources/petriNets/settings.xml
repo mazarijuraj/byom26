@@ -11,4 +11,8 @@
 		<id>admin</id>
 		<title>Admin</title>
 	</role>
+	<role global="true">
+		<id>teacher</id>
+		<title>Teacher</title>
+	</role>
 </document>

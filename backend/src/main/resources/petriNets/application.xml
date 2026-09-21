@@ -4,12 +4,19 @@
 	<initials>APP</initials>
 	<title>Application</title>
 	<icon>fact_check</icon>
-	<defaultRole>false</defaultRole>
+	<defaultRole>true</defaultRole>
 	<anonymousRole>true</anonymousRole>
 	<transitionRole>false</transitionRole>
 	<caseName>Application</caseName>
 	<roleRef>
 		<id>anonymous</id>
+		<caseLogic>
+			<create>true</create>
+			<view>true</view>
+		</caseLogic>
+	</roleRef>
+	<roleRef>
+		<id>default</id>
 		<caseLogic>
 			<create>true</create>
 			<view>true</view>
@@ -101,7 +108,7 @@
 	<data type="text">
 		<id>text_10</id>
 		<title/>
-		<init>&lt;h1&gt;Application for Recognition of Examination Achievements in&lt;/h1&gt;</init>
+		<init>&lt;h1&gt;Application for Recognition of Academic Achievements in&lt;/h1&gt;</init>
 	</data>
 	<data type="text">
 		<id>text_2</id>
@@ -128,7 +135,7 @@
 	<data type="text">
 		<id>text_7</id>
 		<title/>
-		<init>&lt;h1&gt;Application for Information on the Recognition of Examination Achievements&lt;/h1&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Notes:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Examination achievements can be recognized provided there is no significant difference in terms of acquired competencies compared to the achievements to be replaced. Please compare your module descriptions with our &lt;a href="https://www.fernuni-hagen.de/mi/studium/bsc_mathematik/module.shtml" rel="noopener noreferrer" target="_blank"&gt;module descriptions&lt;/a&gt; before submitting your application.&lt;/li&gt;&lt;li&gt;Recognition of examination achievements is always only possible for entire modules; partial achievements cannot be recognized.&lt;/li&gt;&lt;li&gt;When recognizing examination achievements completed at other institutions, the recognition is done without a grade. The grade of a module can only be transferred if the grading systems are comparable and the content and scope of the module match.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;The following application must be filled out as follows:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Enter your details.&lt;/li&gt;&lt;li&gt;Upload all achievement descriptions as PDFs. e.g., certificates and transcripts of records.&lt;/li&gt;&lt;li&gt;Upload all content descriptions as PDFs. e.g., module descriptions, tables of contents, excerpts from study guides or examination regulations showing the scope of the courses (ECTS credits or semester weekly hours), the content of the courses, and the form and duration of the examinations. We need these so that a recognition check can be carried out.&lt;/li&gt;&lt;/ul&gt;</init>
+		<init>&lt;h1&gt;Application for Information on the Recognition of Academic Achievements&lt;/h1&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Notes:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Academic achievements can be recognized provided there is no significant difference in terms of acquired competencies compared to the achievements to be replaced. Please compare your module descriptions with our &lt;a href="https://www.fernuni-hagen.de/mi/studium/bsc_mathematik/module.shtml" rel="noopener noreferrer" target="_blank"&gt;module descriptions&lt;/a&gt; before submitting your application.&lt;/li&gt;&lt;li&gt;Recognition of academic achievements is always only possible for entire modules; partial achievements cannot be recognized.&lt;/li&gt;&lt;li&gt;When recognizing academic achievements completed at other institutions, the recognition is done without a grade. The grade of a module can only be transferred if the grading systems are comparable and the content and scope of the module match.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;The following application must be filled out as follows:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Enter your details.&lt;/li&gt;&lt;li&gt;Upload all achievement descriptions as PDFs. e.g., certificates and transcripts of records.&lt;/li&gt;&lt;li&gt;Upload all content descriptions as PDFs. e.g., module descriptions, tables of contents, excerpts from study guides or examination regulations showing the scope of the courses (ECTS credits or semester weekly hours), the content of the courses, and the form and duration of the examinations. We need these so that a recognition check can be carried out.&lt;/li&gt;&lt;/ul&gt;</init>
 	</data>
 	<data type="text">
 		<id>student_id</id>
@@ -145,6 +152,10 @@
 			<name>preview</name>
 		</component>
 	</data>
+	<data type="taskRef">
+		<id>result_taskRef</id>
+		<title/>
+	</data>
 	<transition>
 		<id>fv_done</id>
 		<x>976</x>
@@ -160,6 +171,13 @@
 		<assignPolicy>auto</assignPolicy>
 		<roleRef>
 			<id>anonymous</id>
+			<logic>
+				<view>true</view>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<roleRef>
+			<id>default</id>
 			<logic>
 				<view>true</view>
 				<perform>true</perform>
@@ -287,6 +305,13 @@
 				<perform>true</perform>
 			</logic>
 		</roleRef>
+		<roleRef>
+			<id>default</id>
+			<logic>
+				<view>true</view>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
 		<dataGroup>
 			<id>t1_0</id>
 			<cols>4</cols>
@@ -357,7 +382,6 @@
 				<id>phone</id>
 				<logic>
 					<behavior>editable</behavior>
-					<behavior>required</behavior>
 				</logic>
 				<layout>
 					<x>2</x>
@@ -372,7 +396,6 @@
 				<id>student_id</id>
 				<logic>
 					<behavior>editable</behavior>
-					<behavior>required</behavior>
 				</logic>
 				<layout>
 					<x>0</x>
@@ -521,11 +544,21 @@
 			<actions phase="pre">
 				<action id="1">
 					<![CDATA[
+					first_name: f.first_name,
+					last_name: f.last_name,
+					email: f.email,
 					study_program: f.study_program;
 
 					def studyPrograms = searchCases("cases: processIdentifier == 'study_program'")
 					change study_program options {
 						studyPrograms.collectEntries{ [it.stringId, "${it.dataSet["name"].value}"] }
+					}
+
+					def user = loggedUser()
+					if (!(user instanceof AnonymousUser)) {
+						change first_name value { user.getName() }
+						change last_name value { user.getSurname() }
+						change email value { user.getEmail() }
 					}
 					]]>
 				</action>
@@ -556,6 +589,13 @@
 			<id>anonymous</id>
 			<logic>
 				<view>true</view>
+			</logic>
+		</roleRef>
+		<roleRef>
+			<id>default</id>
+			<logic>
+				<view>true</view>
+				<perform>true</perform>
 			</logic>
 		</roleRef>
 		<dataGroup>
@@ -608,7 +648,7 @@
 				</layout>
 			</dataRef>
 			<dataRef>
-				<id>application</id>
+				<id>result_taskRef</id>
 				<logic>
 					<behavior>hidden</behavior>
 				</logic>
@@ -616,7 +656,7 @@
 					<x>0</x>
 					<y>3</y>
 					<rows>1</rows>
-					<cols>2</cols>
+					<cols>6</cols>
 					<template>material</template>
 					<appearance>outline</appearance>
 				</layout>
@@ -631,6 +671,13 @@
 		<assignPolicy>auto</assignPolicy>
 		<roleRef>
 			<id>anonymous</id>
+			<logic>
+				<view>true</view>
+				<perform>true</perform>
+			</logic>
+		</roleRef>
+		<roleRef>
+			<id>default</id>
 			<logic>
 				<view>true</view>
 				<perform>true</perform>
@@ -955,7 +1002,8 @@
 					    def reviewCase = createCase("review")
 					    def initTask = assignTask("init", reviewCase)
 					    def taskrefValue = [testimonialsTaskId]
-					    def modulantragTaskIds = findTasks({it.transitionId.eq("entscheiden").and it.caseId.in(moduleApplicationCaseIds)}).collect { t -> t.stringId }
+						def moduleAppTasks = searchTasks("tasks: transitionId == 'decide' and caseId in ${pfql(moduleApplicationCaseIds)}")
+					    def modulantragTaskIds = moduleAppTasks.collect { it.stringId }
 					    taskrefValue.addAll(modulantragTaskIds)
 					    setData(initTask, [
 					        "parent": [
@@ -966,7 +1014,7 @@
 					            "value": [ownerId],
 					            "type": "userList"
 					        ],
-					        "modules": [
+					        "module_applications": [
 					            "value": taskrefValue,
 					            "type": "taskRef"
 					        ]
@@ -977,7 +1025,7 @@
 					// skip module application decided by the examination board
 					if (moduleAppsSkipOwner.size() > 0) {
 					    def skipCaseIds = moduleAppsSkipOwner.collect{it -> it.stringId}
-					    def skipTasks = searchTasks("tasks: transitionId = 'skip' and caseId in ${pfql(skipCaseIds)}")
+					    def skipTasks = searchTasks("tasks: transitionId == 'skip' and caseId in ${pfql(skipCaseIds)}")
 					    assignTasks(skipTasks)
 					    finishTasks(skipTasks)
 					}
@@ -1001,7 +1049,7 @@
 					module_applications_exam_print: f.module_applications_exam_print,
 					module_application_cases: f.module_application_cases;
 
-					def printTasks = findTasks({it.transitionId.eq("print").and it.caseId.in(module_application_cases.value)});
+					def printTasks = searchTasks("tasks: transitionId eq 'print' and caseId in ${pfql(module_application_cases)}")
 					change module_applications_exam_print value { printTasks.collect {t -> t.stringId}; }
 					]]>
 				</action>
@@ -1165,6 +1213,21 @@
 				</layout>
 			</dataRef>
 		</dataGroup>
+		<event type="finish">
+			<id>t9_finish</id>
+			<actions phase="pre">
+				<action id="action1">
+					<![CDATA[
+					t10: t.t10,
+					module_applications_exam_print: f.module_applications_exam_print,
+					result_taskRef: f.result_taskRef;
+
+					change result_taskRef value { module_applications_exam_print.value }
+					make result_taskRef,visible on t10 when {true}
+					]]>
+				</action>
+			</actions>
+		</event>
 	</transition>
 	<transition>
 		<id>testimonials</id>

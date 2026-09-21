@@ -1,6 +1,13 @@
 package org.example.starter.startup
 
+import com.netgrif.application.engine.auth.domain.Authority
+import com.netgrif.application.engine.auth.domain.IUser
+import com.netgrif.application.engine.auth.domain.User
+import com.netgrif.application.engine.auth.domain.UserState
+import com.netgrif.application.engine.auth.service.interfaces.IAuthorityService
+import com.netgrif.application.engine.auth.service.interfaces.IUserService
 import com.netgrif.application.engine.petrinet.domain.dataset.logic.action.ActionDelegate
+import com.netgrif.application.engine.petrinet.domain.roles.ProcessRole
 import com.netgrif.application.engine.petrinet.service.interfaces.IPetriNetService
 import com.netgrif.application.engine.startup.AbstractOrderedCommandLineRunner
 import com.netgrif.application.engine.startup.ImportHelper
@@ -14,9 +21,13 @@ class StudyCaseRunner extends AbstractOrderedCommandLineRunner {
     private final ImportHelper helper
     private final IPetriNetService netService
     private final ActionDelegate actionDelegate
+    private final IAuthorityService authorityService
+    private final IUserService userService
 
-    StudyCaseRunner(ImportHelper helper, IPetriNetService netService, ActionDelegate actionDelegate) {
+    StudyCaseRunner(ImportHelper helper, IPetriNetService netService, ActionDelegate actionDelegate, IAuthorityService authorityService, IUserService userService) {
         this.helper = helper
+        this.userService = userService
+        this.authorityService = authorityService
         this.netService = netService
         this.actionDelegate = actionDelegate
         this.actionDelegate.outcomes = []
@@ -30,6 +41,13 @@ class StudyCaseRunner extends AbstractOrderedCommandLineRunner {
     }
 
     static final STUDENTS = [
+            [
+                    "first_name": "Tomáš",
+                    "last_name" : "Kováčik",
+                    "student_id": "",
+                    "email"     : "kovacik@stuba.sk",
+                    "phone"     : "+421 901 234 567"
+            ],
             [
                     "first_name": "Maximilian",
                     "last_name" : "Müller",
@@ -108,6 +126,7 @@ class StudyCaseRunner extends AbstractOrderedCommandLineRunner {
             throw new IllegalStateException("Could not find 'student' process")
         }
         def net = searchResult.get()
+        Authority userAuthority = authorityService.getOrCreate(Authority.user)
         STUDENTS.each { student ->
             def studentCase = helper.createCase("${student["first_name"]} ${student["last_name"]}" as String, net)
             def createTask = this.actionDelegate.assignTask("create", studentCase)
@@ -134,6 +153,18 @@ class StudyCaseRunner extends AbstractOrderedCommandLineRunner {
                     ]
             ])
             this.actionDelegate.finishTask(createTask)
+            IUser user = userService.findByEmail(student["email"], false)
+            if (user == null) {
+                userService.saveNew(new User(
+                        name: student["first_name"],
+                        surname: student["last_name"],
+                        email: student["email"],
+                        password: "password",
+                        state: UserState.ACTIVE,
+                        authorities: [userAuthority] as Set<Authority>,
+                        processRoles: [])
+                )
+            }
         }
     }
 

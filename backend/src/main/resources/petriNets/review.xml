@@ -4,15 +4,15 @@
 	<initials>REV</initials>
 	<title>Review by Module Owner</title>
 	<icon>content_paste_search</icon>
-	<defaultRole>false</defaultRole>
+	<defaultRole>true</defaultRole>
 	<anonymousRole>false</anonymousRole>
 	<transitionRole>false</transitionRole>
-	<userRef>
-		<id>reviewer</id>
+	<roleRef>
+		<id>default</id>
 		<caseLogic>
 			<view>true</view>
 		</caseLogic>
-	</userRef>
+	</roleRef>
 	<data type="userList">
 		<id>reviewer</id>
 		<title/>
@@ -30,8 +30,9 @@
 				<action id="3">
 					<![CDATA[
 					parent: f.parent;
-					def parentCase = findCase({it._id.eq(parent.value[0])});
-					changeCaseProperty "title" about { parentCase.title; }
+
+					def parentCase = findCase(parent)
+					changeCaseProperty "title" about { "Review for ${parentCase.title}" }
 					]]>
 				</action>
 			</actions>
@@ -100,6 +101,12 @@
 		<y>176</y>
 		<label>Review module applications</label>
 		<assignPolicy>auto</assignPolicy>
+		<roleRef>
+			<id>default</id>
+			<logic>
+				<view>true</view>
+			</logic>
+		</roleRef>
 		<userRef>
 			<id>reviewer</id>
 			<logic>

@@ -3,6 +3,19 @@
 
 https://www.fernuni-hagen.de/ilovepetrinets/byom2026/
 
+## About this project
+
+This project is a submission for the **Bring Your Own Model (BYOM) 2026** competition,
+which takes place on **22 September 2026 in Hagen, Germany**.
+
+It models and implements the process described in the competition task below — the
+process of recognizing academic achievements (Anerkennung akademischer Leistungen) —
+using a Petri net based approach. The application consists of a Groovy/Spring backend
+with the modelled Petri nets and an Angular frontend.
+
+The full competition task is reproduced below, first in its original German version and
+then in an English translation.
+
 ## The process of recognizing academic achievements
 
 > Original text:
