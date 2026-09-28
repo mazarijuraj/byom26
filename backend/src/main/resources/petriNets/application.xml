@@ -162,6 +162,12 @@
 		<y>208</y>
 		<label/>
 		<icon>sync</icon>
+		<roleRef>
+			<id>default</id>
+			<logic>
+				<view>false</view>
+			</logic>
+		</roleRef>
 	</transition>
 	<transition>
 		<id>modules_submit</id>

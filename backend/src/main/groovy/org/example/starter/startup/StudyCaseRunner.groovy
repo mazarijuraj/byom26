@@ -44,7 +44,7 @@ class StudyCaseRunner extends AbstractOrderedCommandLineRunner {
             [
                     "first_name": "Tomáš",
                     "last_name" : "Kováčik",
-                    "student_id": "",
+                    "student_id": null,
                     "email"     : "kovacik@stuba.sk",
                     "phone"     : "+421 901 234 567"
             ],

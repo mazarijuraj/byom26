@@ -319,7 +319,7 @@
 		</dataGroup>
 	</transition>
 	<transition>
-		<id>pruefen</id>
+		<id>review</id>
 		<x>752</x>
 		<y>112</y>
 		<label>Verify details</label>
@@ -457,7 +457,7 @@
 		<id>a12</id>
 		<type>read</type>
 		<sourceId>p5</sourceId>
-		<destinationId>pruefen</destinationId>
+		<destinationId>review</destinationId>
 		<multiplicity>1</multiplicity>
 	</arc>
 	<arc>

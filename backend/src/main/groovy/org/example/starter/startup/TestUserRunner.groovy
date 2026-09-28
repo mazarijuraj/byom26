@@ -30,7 +30,7 @@ class TestUserRunner extends AbstractOrderedCommandLineRunner {
     }
 
     private final static USER_NAMES = [
-            "Robin Bergenthum", "Peter Fettke", "Gabriel Juhás", "Jakub Kovář", "Robert Lorenz", "Wolfgang Reisig"
+            "Robin Bergenthum", "Gabriel Juhás", "Jakub Kovář", "Robert Lorenz", "Wolfgang Reisig", "Jörg Desel"
     ]
     public static List<IUser> TEACHERS = []
 
